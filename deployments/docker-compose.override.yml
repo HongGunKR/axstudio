@@ -1,0 +1,9 @@
+# docker-compose.override.yml
+services:
+  langflow:
+    # 호스트 -> 컨테이너 실시간 싱크
+    volumes:
+      - ./src/backend/base/langflow/components/helpers:/app/src/backend/base/langflow/components/helpers:rw
+    environment:
+      # pyc 생성 억제(캐시 끼임 방지, 선택)
+      - PYTHONDONTWRITEBYTECODE=1

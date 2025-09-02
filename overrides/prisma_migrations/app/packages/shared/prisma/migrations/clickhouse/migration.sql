@@ -1,0 +1,2 @@
+-- noop migration for standalone ClickHouse (no ZooKeeper, no ON CLUSTER)
+-- Intentionally left blank to satisfy Prisma's presence check.
