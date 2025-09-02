@@ -4,3 +4,9 @@ artifacts/*.tar
 *.tar
 *.tgz
 *.tar.gz
+
+# build artifacts
+artifacts/*.tar
+*.tar
+*.tgz
+*.tar.gz
