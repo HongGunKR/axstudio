@@ -10,3 +10,6 @@ artifacts/*.tar
 *.tar
 *.tgz
 *.tar.gz
+
+# macOS
+.DS_Store
