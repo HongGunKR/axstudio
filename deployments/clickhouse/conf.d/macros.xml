@@ -1,5 +1,6 @@
 <clickhouse>
   <macros>
+    <cluster>default</cluster>
     <shard>1</shard>
     <replica>replica1</replica>
   </macros>
