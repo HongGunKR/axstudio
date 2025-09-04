@@ -55,7 +55,7 @@ export const HeaderButtons = ({
 
   return (
     <>
-      {!isDismissedDialog && userData && (
+{/*       {!isDismissedDialog && userData && (
         <>
           <CustomGetStartedProgress
             userData={userData!}
@@ -69,7 +69,7 @@ export const HeaderButtons = ({
           </div>
         </>
       )}
-
+ */}
       <div className="flex shrink-0 items-center justify-between gap-2 pt-2">
         <SidebarTrigger className="lg:hidden">
           <IconComponent name="PanelLeftClose" className="h-4 w-4" />

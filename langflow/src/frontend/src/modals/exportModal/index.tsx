@@ -107,7 +107,7 @@ const ExportModal = forwardRef(
           description,
           flow_body,
           flow_id: currentFlow!.id,
-          context: "Ax Studio",
+          front_tool_name: "Ax Studio",
         };
 
         // 전송 직전 JSON 출력
