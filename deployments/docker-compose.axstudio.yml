@@ -90,12 +90,20 @@ services:
       LANGFLOW_AUTO_LOGIN: ${LANGFLOW_AUTO_LOGIN:-false}
       LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
       LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
-      LANGFUSE_HOST: ${LANGFUSE_HOST:-http://localhost:3000}
+      LANGFUSE_HOST: ${LANGFUSE_HOST:-http://langfuse-web:3000}
       COE_BACKEND_URL: ${COE_BACKEND_URL:-http://host.docker.internal:8000}
       COE_RAG_URL: ${COE_RAG_URL:-http://localhost:8001}
       LANGFLOW_EXPOSED_ENV_VARS: "COE_BACKEND_URL,COE_RAG_URL"
       # ✅ 파이썬이 로컬 소스 먼저 보도록
       #PYTHONPATH: /app:/app/src/backend:/app/src/backend/base
+      # 🔽 Phoenix 연동 핵심
+      PHOENIX_API_KEY: ${PHOENIX_API_KEY}             # Phoenix(Arize) 대시보드에서 발급
+      # 선택: OTel 표준 설정(명시적)
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL:-grpc}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://phoenix:4317}
+      OTEL_EXPORTER_OTLP_HEADERS: "x-api-key=${PHOENIX_API_KEY}" #"Authorization=Bearer ${PHOENIX_API_KEY}"
+      OTEL_EXPORTER_OTLP_TRACES_HEADERS: "x-api-key=${PHOENIX_API_KEY}" #"Authorization=Bearer ${PHOENIX_API_KEY}"
+      OTEL_RESOURCE_ATTRIBUTES: service.name=langflow,service.namespace=axstudio
     restart: unless-stopped
     networks:
       - axstudio_net
@@ -163,6 +171,9 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      # (옵션) 기본 버킷명도 compose에 명시해두면 다른 서비스와 한 눈에 맞출 수 있어요
+      MINIO_MEDIA_BUCKET: ${MINIO_MEDIA_BUCKET:-langfuse-media}
+      MINIO_EVENT_BUCKET: ${MINIO_EVENT_BUCKET:-langfuse-events}
     ports:
       - "9090:9090"   # 콘솔(UI)
       - "9000:9000"   # S3 API
@@ -170,6 +181,44 @@ services:
       - minio_data:/data
     networks:
       - axstudio_net
+
+  # --- 버킷 자동 생성용 원샷 init 잡 ---
+  minio-init:
+    image: alpine:3.20
+    container_name: minio-init
+    depends_on:
+      - minio
+    command: >
+      sh -lc "
+        set -e;
+        apk add --no-cache curl >/dev/null 2>&1 || true;
+        # ✅ MinIO readiness 폴링(엔드포인트가 200 될 때까지 대기)
+        echo 'Waiting for MinIO...';
+        until curl -sf http://minio:9000/minio/health/ready >/dev/null; do
+          sleep 1;
+        done
+        echo 'MinIO is ready.';
+
+        # mc 설치
+        curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc;
+        chmod +x /usr/local/bin/mc;
+        # MinIO alias 등록
+        mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+        # 버킷 2개 생성 (이미 있으면 무시)
+        mc mb -p local/${MINIO_MEDIA_BUCKET:-langfuse-media}  || true;
+        mc mb -p local/${MINIO_EVENT_BUCKET:-langfuse-events} || true;
+        # (선택) 목록 출력
+        mc ls local || true;
+        echo 'MinIO buckets ready';
+      "
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_MEDIA_BUCKET: ${MINIO_MEDIA_BUCKET:-langfuse-media}
+      MINIO_EVENT_BUCKET: ${MINIO_EVENT_BUCKET:-langfuse-events}
+    networks:
+      - axstudio_net
+    restart: "no"
 
   langfuse-web:
     build:
@@ -270,6 +319,13 @@ services:
       PHOENIX_PORT: ${PHOENIX_PORT:-6006}
       PHOENIX_GRPC_PORT: ${PHOENIX_GRPC_PORT:-4317}
       PHOENIX_ALLOW_EXTERNAL_RESOURCES: ${PHOENIX_ALLOW_EXTERNAL_RESOURCES:-false}
+      # 🔽 인증 활성화
+      PHOENIX_ENABLE_AUTH: ${PHOENIX_ENABLE_AUTH:-true}
+      PHOENIX_SECRET: ${PHOENIX_SECRET}
+      PHOENIX_ADMIN_EMAIL: ${PHOENIX_ADMIN_EMAIL}
+      PHOENIX_ADMIN_PASSWORD: ${PHOENIX_ADMIN_PASSWORD}
+      # (선택) Programmatic API Key 발급 API 사용하려면 필요
+      PHOENIX_ADMIN_SECRET: ${PHOENIX_ADMIN_SECRET}
     ports:
       - "${PHOENIX_PORT:-6006}:6006"
       - "${PHOENIX_GRPC_PORT:-4317}:4317"

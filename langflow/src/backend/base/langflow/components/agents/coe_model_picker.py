@@ -63,6 +63,9 @@ class CoEModelPicker(Component):
     # 최근 호출 결과 캐시
     _last_text: Optional[str] = None
 
+    # ★ 첫 렌더링(마운트) 시 자동 로드 제어 플래그
+    _did_initial_fetch: bool = False
+
     # ─────────────────────────────────────────────────────────────────────────
     # Inputs
     inputs = [
@@ -79,8 +82,9 @@ class CoEModelPicker(Component):
         DropdownInput(
             name="model_name",
             display_name="Model",
-            options=["(click Refresh models now)"],
-            value="(click Refresh models now)",
+            # ★ 초기엔 빈 옵션으로 두고(placeholder 제거) 자동 로드 유도
+            options=[],
+            value="",
             info="Models filtered by owned_by (openai, sktax).",
             real_time_refresh=True,
         ),
@@ -88,7 +92,7 @@ class CoEModelPicker(Component):
             name="backend_url",
             display_name="CoE Backend URL",
             value=DEFAULT_BACKEND,
-            info="mac/Windows: http://greatcoe.cafe24.com:8000",
+            info="mac/Windows: http://greatcoe.cafe24.com",
             advanced=True,
             real_time_refresh=True,
         ),
@@ -199,10 +203,14 @@ class CoEModelPicker(Component):
         base = self._normalize(current_base, current_force_https)
 
         current_options = build_config.get("model_name", {}).get("options") or []
+        current_value = (build_config.get("model_name", {}) or {}).get("value") or ""
+
+        # ★ 최초 마운트 또는 옵션이 비어있을 때/수동 토글 시 새로고침
         should_refresh = (
-            field_name in {"backend_url", "force_https", "refresh_now"}
+            not self._did_initial_fetch
+            or field_name in {"backend_url", "force_https", "refresh_now"}
             or not current_options
-            or current_options == ["(click Refresh models now)"]
+            or current_value == "(click Refresh models now)"
         )
 
         if should_refresh:
@@ -212,26 +220,34 @@ class CoEModelPicker(Component):
                     self._name_to_id = {name: mid for name, mid in pairs}
                     names = list(self._name_to_id.keys())
                     build_config["model_name"]["options"] = names
-                    curr_val = build_config["model_name"].get("value") or ""
-                    if curr_val not in names and names:
+                    if not current_value or current_value not in names:
                         build_config["model_name"]["value"] = names[0]
+                    self._did_initial_fetch = True  # ★ 한 번 성공하면 플래그 켜기
                     self.log(f"[CoEModelPicker] models loaded: {len(names)} from {base}")
                 else:
+                    # 서버 응답이 비었을 때 폴백
                     pairs = self._fallback_pairs()
                     self._name_to_id = {n: i for n, i in pairs}
                     names = [n for n, _ in pairs]
                     build_config["model_name"]["options"] = names
-                    if build_config["model_name"].get("value") not in names:
+                    if not current_value or current_value not in names:
                         build_config["model_name"]["value"] = names[0]
+                    self._did_initial_fetch = True
                     self.log("[CoEModelPicker] server returned empty; using fallback")
             except Exception as e:
+                # 실패 시 폴백 후에도 초기화 완료 처리 (UI가 비지 않도록)
                 pairs = self._fallback_pairs()
                 self._name_to_id = {n: i for n, i in pairs}
                 names = [n for n, _ in pairs]
                 build_config["model_name"]["options"] = names
-                if build_config["model_name"].get("value") not in names:
+                if not current_value or current_value not in names:
                     build_config["model_name"]["value"] = names[0]
+                self._did_initial_fetch = True
                 self.log(f"[CoEModelPicker] fetch failed: {e}; using fallback list")
+
+            # ★ 수동 토글이 켜져 있으면 끄면서(체크 해제) UI 깜빡임 방지
+            if "refresh_now" in build_config:
+                build_config["refresh_now"]["value"] = False
 
         return build_config
 

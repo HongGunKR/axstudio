@@ -43,6 +43,24 @@ from langflow.services.deps import (
 )
 from langflow.services.utils import initialize_services, teardown_services
 
+from phoenix.otel import register as phoenix_register
+from openinference.instrumentation.langchain import LangChainInstrumentor
+
+def _init_phoenix_otel():
+    try:
+        phoenix_register(
+            endpoint=os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://phoenix:4317"),
+            protocol=os.getenv("OTEL_EXPORTER_OTLP_PROTOCOL", "grpc"),
+            # api_key=os.getenv("PHOENIX_API_KEY"),
+            headers={"x-api-key": os.getenv("PHOENIX_API_KEY")},
+            auto_instrument=True
+        )
+        # LangChain 자동 계측(LLM/Chain/Tool 스팬 생성)
+        LangChainInstrumentor().instrument()
+    except Exception as e:
+        # 초기화 실패해도 앱은 뜨게
+        print(f"[phoenix-otel] init failed: {e}")
+
 if TYPE_CHECKING:
     from tempfile import TemporaryDirectory
 
@@ -293,6 +311,7 @@ def create_app():
     __version__ = get_version_info()["version"]
     configure()
     lifespan = get_lifespan(version=__version__)
+    _init_phoenix_otel()
     app = FastAPI(
         title="Langflow",
         version=__version__,
