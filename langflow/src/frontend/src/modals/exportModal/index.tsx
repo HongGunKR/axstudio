@@ -47,11 +47,11 @@ import BaseModal from "../baseModal"; // 모달 베이스 컴포넌트
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 고정 호출 URL 구성
-//  - .env(VITE_COE_BACKEND_URL)가 있으면 사용하고, 없으면 기본 URL로 fallback
+//  - .env(COE_BACKEND_URL)가 있으면 사용하고, 없으면 기본 URL로 fallback
 //  - 뒤에 슬래시 중복 방지 후 "/flows/" 엔드포인트를 붙입니다.
 // ─────────────────────────────────────────────────────────────────────────────
 const RAW_BASE =
-  (import.meta as any)?.env?.VITE_COE_BACKEND_URL || "http://greatcoe.cafe24.com";
+  (import.meta as any)?.env?.COE_BACKEND_URL || "http://greatcoe.cafe24.com";
 const COE_FLOWS_URL = `${String(RAW_BASE).replace(/\/+$/, "")}/flows/`;
 
 // 기본 Context 후보(드롭다운 초기값)

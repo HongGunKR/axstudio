@@ -14,7 +14,7 @@ class JsonAgentComponent(LCAgentComponent):
     display_name = "JsonAgent"
     description = "Construct a json agent from an LLM and tools."
     name = "JsonAgent"
-    legacy: bool = True
+    legacy = True
 
     inputs = [
         *LCAgentComponent._base_inputs,

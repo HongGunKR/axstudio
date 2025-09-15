@@ -10,6 +10,7 @@ class FakeEmbeddingsComponent(LCEmbeddingsModel):
     description = "Generate fake embeddings, useful for initial testing and connecting components."
     icon = "LangChain"
     name = "LangChainFakeEmbeddings"
+    legacy = True
 
     inputs = [
         IntInput(

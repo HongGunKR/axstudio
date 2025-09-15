@@ -9,7 +9,7 @@ class VectorStoreInfoComponent(Component):
     display_name = "VectorStoreInfo"
     description = "Information about a VectorStore"
     name = "VectorStoreInfo"
-    legacy: bool = True
+    legacy = True
     icon = "LangChain"
 
     inputs = [

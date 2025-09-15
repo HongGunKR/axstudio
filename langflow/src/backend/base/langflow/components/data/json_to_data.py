@@ -15,7 +15,7 @@ class JSONToDataComponent(Component):
     )
     icon = "braces"
     name = "JSONtoData"
-    legacy = True
+    #legacy = True
 
     inputs = [
         FileInput(

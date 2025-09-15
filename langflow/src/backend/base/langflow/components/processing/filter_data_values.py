@@ -12,9 +12,9 @@ class DataFilterComponent(Component):
         " and comparison operator. Check advanced options to select match comparision."
     )
     icon = "filter"
-    beta = True
+    #beta = True
     name = "FilterDataValues"
-    legacy = True
+    #legacy = True
 
     inputs = [
         DataInput(name="input_data", display_name="Input Data", info="The list of data items to filter.", is_list=True),

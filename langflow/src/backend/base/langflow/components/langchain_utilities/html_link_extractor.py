@@ -13,6 +13,7 @@ class HtmlLinkExtractorComponent(LCDocumentTransformerComponent):
     documentation = "https://python.langchain.com/v0.2/api_reference/community/graph_vectorstores/langchain_community.graph_vectorstores.extractors.html_link_extractor.HtmlLinkExtractor.html"
     name = "HtmlLinkExtractor"
     icon = "LangChain"
+    legacy = True
 
     inputs = [
         StrInput(name="kind", display_name="Kind of edge", value="hyperlink", required=False),

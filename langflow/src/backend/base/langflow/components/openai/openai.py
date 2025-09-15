@@ -11,6 +11,7 @@ class OpenAIEmbeddingsComponent(LCEmbeddingsModel):
     description = "Generate embeddings using OpenAI models."
     icon = "OpenAI"
     name = "OpenAIEmbeddings"
+    legacy = True
 
     inputs = [
         DictInput(

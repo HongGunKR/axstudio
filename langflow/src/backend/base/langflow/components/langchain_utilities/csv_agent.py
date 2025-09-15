@@ -19,6 +19,7 @@ class CSVAgentComponent(LCAgentComponent):
     documentation = "https://python.langchain.com/docs/modules/agents/toolkits/csv"
     name = "CSVAgent"
     icon = "LangChain"
+    legacy = True
 
     inputs = [
         *LCAgentComponent._base_inputs,

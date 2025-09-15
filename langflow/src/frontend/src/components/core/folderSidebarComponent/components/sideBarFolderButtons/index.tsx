@@ -478,14 +478,14 @@ const SideBarFoldersButtonsComponent = ({
           <div className="grid w-full items-center gap-2 p-2">
             {/* TODO: Remove this on cleanup */}
             {ENABLE_DATASTAX_LANGFLOW && <CustomStoreButton />}{" "}
-            <SidebarMenuButton
+{/*             <SidebarMenuButton
               onClick={handleKnowledgeNavigation}
               size="md"
               className="text-sm"
             >
               <ForwardedIconComponent name="Library" className="h-4 w-4" />
               Knowledge
-            </SidebarMenuButton>
+            </SidebarMenuButton> */}
             <SidebarMenuButton
               onClick={handleFilesNavigation}
               size="md"

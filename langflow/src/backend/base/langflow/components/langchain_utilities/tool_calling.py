@@ -15,6 +15,7 @@ class ToolCallingAgentComponent(LCToolsAgentComponent):
     description: str = "An agent designed to utilize various tools seamlessly within workflows."
     icon = "LangChain"
     name = "ToolCallingAgent"
+    legacy = True
 
     inputs = [
         *LCToolsAgentComponent._base_inputs,

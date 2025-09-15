@@ -40,8 +40,8 @@ export default function GetStartedComponent() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 md:gap-8">
-      <BaseModal.Header description="Start with templates showcasing Langflow's Prompting, RAG, and Agent use cases.">
-        Get started
+      <BaseModal.Header description="Template을 통해 'Prompting, RAG, Agent' 사용을 경험해보세요.">
+        시작하기
       </BaseModal.Header>
       <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-3">
         {cardData.map((card, index) => (

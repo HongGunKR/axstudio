@@ -25,6 +25,7 @@ class OpenRouterComponent(LCModelComponent):
         "OpenRouter provides unified access to multiple AI models from different providers through a single API."
     )
     icon = "OpenRouter"
+    legacy = True
 
     inputs = [
         *LCModelComponent._base_inputs,

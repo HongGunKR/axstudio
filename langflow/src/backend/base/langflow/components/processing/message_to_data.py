@@ -10,9 +10,9 @@ class MessageToDataComponent(Component):
     display_name = "Message to Data"
     description = "Convert a Message object to a Data object"
     icon = "message-square-share"
-    beta = True
+    #beta = True
     name = "MessagetoData"
-    legacy = True
+    #legacy = True
 
     inputs = [
         MessageInput(

@@ -10,7 +10,7 @@ class RunnableExecComponent(Component):
     description = "Execute a runnable. It will try to guess the input and output keys."
     display_name = "Runnable Executor"
     name = "RunnableExecutor"
-    beta: bool = True
+    legacy = True
     icon = "LangChain"
 
     inputs = [

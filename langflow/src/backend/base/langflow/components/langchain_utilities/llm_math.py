@@ -11,7 +11,7 @@ class LLMMathChainComponent(LCChainComponent):
     description = "Chain that interprets a prompt and executes python code to do math."
     documentation = "https://python.langchain.com/docs/modules/chains/additional/llm_math"
     name = "LLMMathChain"
-    legacy: bool = True
+    legacy = True
     icon = "LangChain"
     inputs = [
         MultilineInput(

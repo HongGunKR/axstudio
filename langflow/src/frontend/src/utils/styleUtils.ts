@@ -273,7 +273,7 @@ export const SIDEBAR_BUNDLES = [
   { display_name: "IBM", name: "ibm", icon: "WatsonxAI" },
   { display_name: "Icosa Computing", name: "icosacomputing", icon: "Icosa" },
   { display_name: "JigsawStack", name: "jigsawstack", icon: "JigsawStack" },
-  { display_name: "LangChain", name: "langchain_utilities", icon: "LangChain" },
+  // { display_name: "LangChain", name: "langchain_utilities", icon: "LangChain" },
   { display_name: "LangWatch", name: "langwatch", icon: "Langwatch" },
   { display_name: "LMStudio", name: "lmstudio", icon: "LMStudio" },
   { display_name: "MariTalk", name: "maritalk", icon: "Maritalk" },
@@ -300,7 +300,7 @@ export const SIDEBAR_BUNDLES = [
   { display_name: "TwelveLabs", name: "twelvelabs", icon: "TwelveLabs" },
   { display_name: "Unstructured", name: "unstructured", icon: "Unstructured" },
   { display_name: "Vectara", name: "vectara", icon: "Vectara" },
-  { display_name: "Vector Stores", name: "vectorstores", icon: "Layers" },
+  // { display_name: "Vector Stores", name: "vectorstores", icon: "Layers" },
   { display_name: "Vertex AI", name: "vertexai", icon: "VertexAI" },
   { display_name: "Wikipedia", name: "wikipedia", icon: "Wikipedia" },
   {

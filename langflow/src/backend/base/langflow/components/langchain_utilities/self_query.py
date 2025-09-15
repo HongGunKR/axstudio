@@ -13,7 +13,7 @@ class SelfQueryRetrieverComponent(Component):
     description = "Retriever that uses a vector store and an LLM to generate the vector store queries."
     name = "SelfQueryRetriever"
     icon = "LangChain"
-    legacy: bool = True
+    legacy = True
 
     inputs = [
         HandleInput(

@@ -11,10 +11,11 @@ from langflow.schema.message import Message
 class LangChainHubPromptComponent(Component):
     display_name: str = "Prompt Hub"
     description: str = "Prompt Component that uses LangChain Hub prompts"
-    beta = True
+    #beta = True
     icon = "LangChain"
     trace_type = "prompt"
     name = "LangChain Hub Prompt"
+    legacy = True
 
     inputs = [
         SecretStrInput(

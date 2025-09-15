@@ -16,6 +16,8 @@ class OpenAPIAgentComponent(LCAgentComponent):
     description = "Agent to interact with OpenAPI API."
     name = "OpenAPIAgent"
     icon = "LangChain"
+    legacy = True
+    
     inputs = [
         *LCAgentComponent._base_inputs,
         HandleInput(name="llm", display_name="Language Model", input_types=["LanguageModel"], required=True),
