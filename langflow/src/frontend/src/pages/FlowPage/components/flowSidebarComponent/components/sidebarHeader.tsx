@@ -42,7 +42,7 @@ export const SidebarHeaderComponent = memo(function SidebarHeaderComponent({
           <h3 className="flex-1 cursor-default text-sm font-semibold">
             Components
           </h3>
-          <DisclosureTrigger>
+{/*           <DisclosureTrigger>
             <div>
               <ShadTooltip content="Component settings" styleClasses="z-50">
                 <Button
@@ -57,16 +57,16 @@ export const SidebarHeaderComponent = memo(function SidebarHeaderComponent({
                 </Button>
               </ShadTooltip>
             </div>
-          </DisclosureTrigger>
+          </DisclosureTrigger> */}
         </div>
-        <DisclosureContent>
+{/*         <DisclosureContent>
           <FeatureToggles
             showBeta={showBeta}
             setShowBeta={setShowBeta}
             showLegacy={showLegacy}
             setShowLegacy={setShowLegacy}
           />
-        </DisclosureContent>
+        </DisclosureContent> */}
       </Disclosure>
       <SearchInput
         searchInputRef={searchInputRef}

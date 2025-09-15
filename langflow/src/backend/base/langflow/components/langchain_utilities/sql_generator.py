@@ -16,7 +16,7 @@ class SQLGeneratorComponent(LCChainComponent):
     display_name = "Natural Language to SQL"
     description = "Generate SQL from natural language."
     name = "SQLGenerator"
-    legacy: bool = True
+    legacy = True
     icon = "LangChain"
 
     inputs = [

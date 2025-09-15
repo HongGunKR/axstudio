@@ -11,8 +11,9 @@ class RetrievalQAComponent(LCChainComponent):
     display_name = "Retrieval QA"
     description = "Chain for question-answering querying sources from a retriever."
     name = "RetrievalQA"
-    legacy: bool = True
+    legacy = True
     icon = "LangChain"
+    
     inputs = [
         MultilineInput(
             name="input_value",

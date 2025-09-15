@@ -9,7 +9,7 @@ class ConversationChainComponent(LCChainComponent):
     display_name = "ConversationChain"
     description = "Chain to have a conversation and load context from memory."
     name = "ConversationChain"
-    legacy: bool = True
+    legacy = True
     icon = "LangChain"
 
     inputs = [

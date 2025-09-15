@@ -13,7 +13,7 @@ class DataToDataFrameComponent(Component):
     )
     icon = "table"
     name = "DataToDataFrame"
-    legacy = True
+    #legacy = True
 
     inputs = [
         DataInput(

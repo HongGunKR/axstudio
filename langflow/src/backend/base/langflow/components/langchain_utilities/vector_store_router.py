@@ -9,7 +9,7 @@ class VectorStoreRouterAgentComponent(LCAgentComponent):
     display_name = "VectorStoreRouterAgent"
     description = "Construct an agent from a Vector Store Router."
     name = "VectorStoreRouterAgent"
-    legacy: bool = True
+    legacy = True
 
     inputs = [
         *LCAgentComponent._base_inputs,

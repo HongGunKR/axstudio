@@ -12,7 +12,7 @@ class CSVToDataComponent(Component):
     description = "Load a CSV file, CSV from a file path, or a valid CSV string and convert it to a list of Data"
     icon = "file-spreadsheet"
     name = "CSVtoData"
-    legacy = True
+    #legacy = True
 
     inputs = [
         FileInput(

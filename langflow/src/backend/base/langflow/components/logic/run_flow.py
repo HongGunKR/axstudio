@@ -14,7 +14,7 @@ class RunFlowComponent(RunFlowBaseComponent):
         " \n **Select a Flow to use the tool mode**"
     )
     documentation: str = "https://docs.langflow.org/components-logic#run-flow"
-    beta = True
+    #beta = True
     name = "RunFlow"
     icon = "Workflow"
 

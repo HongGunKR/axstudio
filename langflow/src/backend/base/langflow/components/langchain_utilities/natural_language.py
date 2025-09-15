@@ -15,6 +15,7 @@ class NaturalLanguageTextSplitterComponent(LCTextSplitterComponent):
     )
     name = "NaturalLanguageTextSplitter"
     icon = "LangChain"
+    legacy = True
     inputs = [
         IntInput(
             name="chunk_size",

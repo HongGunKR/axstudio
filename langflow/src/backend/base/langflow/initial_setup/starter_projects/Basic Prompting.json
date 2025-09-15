@@ -3,47 +3,72 @@
     "edges": [
       {
         "animated": false,
-        "className": "",
         "data": {
           "sourceHandle": {
             "dataType": "ChatInput",
-            "id": "ChatInput-SzjnT",
+            "id": "ChatInput-NPnXv",
             "name": "message",
             "output_types": [
               "Message"
             ]
           },
           "targetHandle": {
-            "fieldName": "input_value",
-            "id": "LanguageModelComponent-kBOja",
+            "fieldName": "chat_input",
+            "id": "CoEModelPicker-tbd4i",
             "inputTypes": [
               "Message"
             ],
             "type": "str"
           }
         },
-        "id": "reactflow__edge-ChatInput-SzjnT{œdataTypeœ:œChatInputœ,œidœ:œChatInput-SzjnTœ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}-LanguageModelComponent-kBOja{œfieldNameœ:œinput_valueœ,œidœ:œLanguageModelComponent-kBOjaœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "id": "xy-edge__ChatInput-NPnXv{œdataTypeœ:œChatInputœ,œidœ:œChatInput-NPnXvœ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}-CoEModelPicker-tbd4i{œfieldNameœ:œchat_inputœ,œidœ:œCoEModelPicker-tbd4iœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
         "selected": false,
-        "source": "ChatInput-SzjnT",
-        "sourceHandle": "{œdataTypeœ: œChatInputœ, œidœ: œChatInput-SzjnTœ, œnameœ: œmessageœ, œoutput_typesœ: [œMessageœ]}",
-        "target": "LanguageModelComponent-kBOja",
-        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œLanguageModelComponent-kBOjaœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
+        "source": "ChatInput-NPnXv",
+        "sourceHandle": "{œdataTypeœ:œChatInputœ,œidœ:œChatInput-NPnXvœ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "CoEModelPicker-tbd4i",
+        "targetHandle": "{œfieldNameœ:œchat_inputœ,œidœ:œCoEModelPicker-tbd4iœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
       },
       {
         "animated": false,
-        "className": "",
         "data": {
           "sourceHandle": {
-            "dataType": "LanguageModelComponent",
-            "id": "LanguageModelComponent-kBOja",
-            "name": "text_output",
+            "dataType": "Prompt",
+            "id": "Prompt-o7Itl",
+            "name": "prompt",
+            "output_types": [
+              "Message"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "prompt",
+            "id": "CoEModelPicker-tbd4i",
+            "inputTypes": [
+              "Message"
+            ],
+            "type": "str"
+          }
+        },
+        "id": "xy-edge__Prompt-o7Itl{œdataTypeœ:œPromptœ,œidœ:œPrompt-o7Itlœ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}-CoEModelPicker-tbd4i{œfieldNameœ:œpromptœ,œidœ:œCoEModelPicker-tbd4iœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "selected": false,
+        "source": "Prompt-o7Itl",
+        "sourceHandle": "{œdataTypeœ:œPromptœ,œidœ:œPrompt-o7Itlœ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "CoEModelPicker-tbd4i",
+        "targetHandle": "{œfieldNameœ:œpromptœ,œidœ:œCoEModelPicker-tbd4iœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
+      },
+      {
+        "animated": false,
+        "data": {
+          "sourceHandle": {
+            "dataType": "CoEModelPicker",
+            "id": "CoEModelPicker-tbd4i",
+            "name": "chat_output",
             "output_types": [
               "Message"
             ]
           },
           "targetHandle": {
             "fieldName": "input_value",
-            "id": "ChatOutput-8ZWWB",
+            "id": "ChatOutput-a3e2w",
             "inputTypes": [
               "Data",
               "DataFrame",
@@ -52,39 +77,12 @@
             "type": "str"
           }
         },
-        "id": "reactflow__edge-LanguageModelComponent-kBOja{œdataTypeœ:œLanguageModelComponentœ,œidœ:œLanguageModelComponent-kBOjaœ,œnameœ:œtext_outputœ,œoutput_typesœ:[œMessageœ]}-ChatOutput-8ZWWB{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-8ZWWBœ,œinputTypesœ:[œDataœ,œDataFrameœ,œMessageœ],œtypeœ:œstrœ}",
+        "id": "xy-edge__CoEModelPicker-tbd4i{œdataTypeœ:œCoEModelPickerœ,œidœ:œCoEModelPicker-tbd4iœ,œnameœ:œchat_outputœ,œoutput_typesœ:[œMessageœ]}-ChatOutput-a3e2w{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-a3e2wœ,œinputTypesœ:[œDataœ,œDataFrameœ,œMessageœ],œtypeœ:œstrœ}",
         "selected": false,
-        "source": "LanguageModelComponent-kBOja",
-        "sourceHandle": "{œdataTypeœ: œLanguageModelComponentœ, œidœ: œLanguageModelComponent-kBOjaœ, œnameœ: œtext_outputœ, œoutput_typesœ: [œMessageœ]}",
-        "target": "ChatOutput-8ZWWB",
-        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œChatOutput-8ZWWBœ, œinputTypesœ: [œDataœ, œDataFrameœ, œMessageœ], œtypeœ: œstrœ}"
-      },
-      {
-        "animated": false,
-        "data": {
-          "sourceHandle": {
-            "dataType": "Prompt",
-            "id": "Prompt-tOH5D",
-            "name": "prompt",
-            "output_types": [
-              "Message"
-            ]
-          },
-          "targetHandle": {
-            "fieldName": "system_message",
-            "id": "LanguageModelComponent-kBOja",
-            "inputTypes": [
-              "Message"
-            ],
-            "type": "str"
-          }
-        },
-        "id": "xy-edge__Prompt-tOH5D{œdataTypeœ:œPromptœ,œidœ:œPrompt-tOH5Dœ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}-LanguageModelComponent-kBOja{œfieldNameœ:œsystem_messageœ,œidœ:œLanguageModelComponent-kBOjaœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
-        "selected": false,
-        "source": "Prompt-tOH5D",
-        "sourceHandle": "{œdataTypeœ: œPromptœ, œidœ: œPrompt-tOH5Dœ, œnameœ: œpromptœ, œoutput_typesœ: [œMessageœ]}",
-        "target": "LanguageModelComponent-kBOja",
-        "targetHandle": "{œfieldNameœ: œsystem_messageœ, œidœ: œLanguageModelComponent-kBOjaœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
+        "source": "CoEModelPicker-tbd4i",
+        "sourceHandle": "{œdataTypeœ:œCoEModelPickerœ,œidœ:œCoEModelPicker-tbd4iœ,œnameœ:œchat_outputœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "ChatOutput-a3e2w",
+        "targetHandle": "{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-a3e2wœ,œinputTypesœ:[œDataœ,œDataFrameœ,œMessageœ],œtypeœ:œstrœ}"
       }
     ],
     "nodes": [
@@ -92,7 +90,7 @@
         "data": {
           "description": "Get chat inputs from the Playground.",
           "display_name": "Chat Input",
-          "id": "ChatInput-SzjnT",
+          "id": "ChatInput-NPnXv",
           "node": {
             "base_classes": [
               "Message"
@@ -363,7 +361,7 @@
         },
         "dragging": false,
         "height": 234,
-        "id": "ChatInput-SzjnT",
+        "id": "ChatInput-NPnXv",
         "measured": {
           "height": 234,
           "width": 320
@@ -384,7 +382,7 @@
         "data": {
           "description": "Create a prompt template with dynamic variables.",
           "display_name": "Prompt",
-          "id": "Prompt-tOH5D",
+          "id": "Prompt-o7Itl",
           "node": {
             "base_classes": [
               "Message"
@@ -398,17 +396,23 @@
             "display_name": "Prompt",
             "documentation": "",
             "edited": false,
+            "error": null,
             "field_order": [
               "template"
             ],
             "frozen": false,
+            "full_path": null,
             "icon": "braces",
+            "is_composition": null,
+            "is_input": null,
+            "is_output": null,
             "legacy": false,
-            "lf_version": "1.4.2",
             "metadata": {
               "code_hash": "3bf0b511e227",
               "module": "langflow.components.prompts.prompt.PromptComponent"
             },
+            "minimized": false,
+            "name": "",
             "output_types": [],
             "outputs": [
               {
@@ -416,8 +420,11 @@
                 "cache": true,
                 "display_name": "Prompt",
                 "group_outputs": false,
+                "hidden": null,
                 "method": "build_prompt",
                 "name": "prompt",
+                "options": null,
+                "required_inputs": null,
                 "selected": "Message",
                 "tool_mode": true,
                 "types": [
@@ -427,6 +434,7 @@
               }
             ],
             "pinned": false,
+            "priority": null,
             "template": {
               "_type": "Component",
               "code": {
@@ -463,7 +471,7 @@
                 "tool_mode": false,
                 "trace_as_input": true,
                 "type": "prompt",
-                "value": "Answer the user as if you were a GenAI expert, enthusiastic about helping them get started building something fresh."
+                "value": "[역할]\n당신은 생성형 AI(GenAI) 전문가입니다.\n사용자가 새로운 것을 쉽게 만들수 있도록 열정적으로 돕고 싶어하는 태도로 답하세요."
               },
               "tool_placeholder": {
                 "_input_type": "MessageTextInput",
@@ -495,7 +503,7 @@
         },
         "dragging": false,
         "height": 260,
-        "id": "Prompt-tOH5D",
+        "id": "Prompt-o7Itl",
         "measured": {
           "height": 260,
           "width": 320
@@ -514,26 +522,26 @@
       },
       {
         "data": {
-          "id": "undefined-qkI8p",
+          "id": "undefined-8vLbv",
           "node": {
-            "description": "This template demonstrates a standard chat flow with additional instructions provided by a prompt. Prompts provide instructions and inputs for a Large Language Model (LLM) beyond the standard user-provided chat input. In this example, the prompt describes the LLM's role and persona.\n\n## Quick Start\n1. Add your **OpenAI API Key** to the **Language Model** component, or select a different provider and model.\n2. Open the **Playground** to start the chat and run the flow.\n\n## Next steps\nChange the prompt template, model, or model settings, such as **Temperature**, and then see how the responses change with these different inputs.\n💡 Some component settings are hidden by default; to view all settings click **Controls** in each component's header menu.\n💡 You can use curly braces to create variables in your template, such as `{variable}`. These can be populated from other components, with Langflow global variables, or at runtime.",
+            "description": "# 📖 README\n이 템플릿은 추가 지시문이 포함된 표준 채팅 플로우를 보여줍니다.\n프롬프트(Prompt)는 사용자가 직접 입력하는 채팅 이외에, **대규모 언어 모델(LLM)**에 대한 지시사항과 입력값을 제공합니다.\n이 예시에서는 프롬프트가 LLM의 역할과 페르소나(persona)를 설명합니다.\n\n## Quick Start\n1. Language Model 컴포넌트에 OpenAI API 키를 추가하거나, 다른 공급자와 모델을 선택하세요.\n2. Playground를 열어 채팅을 시작하고 플로우를 실행하세요.\n\n## Next steps\n프롬프트 템플릿, 모델, 또는 모델 설정(예: Temperature)을 변경해 보세요. 입력값이 달라졌을 때 응답이 어떻게 바뀌는지 확인해 보세요.\n\n💡 일부 컴포넌트 설정은 기본적으로 숨겨져 있습니다. 모든 설정을 보려면 각 컴포넌트의 헤더 메뉴에서 Controls를 클릭하세요.\n\n💡 템플릿에 {variable}처럼 중괄호를 사용하여 변수를 만들 수 있습니다. 이 변수는 다른 컴포넌트, Langflow 전역 변수, 또는 실행 시점(Runtime)에서 채워질 수 있습니다.",
             "display_name": "Read Me",
             "documentation": "",
             "template": {
-              "backgroundColor": "neutral"
+              "backgroundColor": "amber"
             }
           }
         },
         "dragging": false,
-        "height": 403,
-        "id": "undefined-qkI8p",
+        "height": 624,
+        "id": "undefined-8vLbv",
         "measured": {
-          "height": 403,
-          "width": 324
+          "height": 624,
+          "width": 429
         },
         "position": {
-          "x": 309.22132329147314,
-          "y": 803.5424763412283
+          "x": 237.97591781380908,
+          "y": 694.6960630534636
         },
         "positionAbsolute": {
           "x": 66.38770028934243,
@@ -546,48 +554,11 @@
           "width": 324
         },
         "type": "noteNode",
-        "width": 324
+        "width": 429
       },
       {
         "data": {
-          "id": "note-CLC7a",
-          "node": {
-            "description": "### 💡 Add your OpenAI API key here 👇",
-            "display_name": "",
-            "documentation": "",
-            "template": {
-              "backgroundColor": "transparent"
-            }
-          },
-          "type": "note"
-        },
-        "dragging": false,
-        "height": 324,
-        "id": "note-CLC7a",
-        "measured": {
-          "height": 324,
-          "width": 324
-        },
-        "position": {
-          "x": 1080.9467591245357,
-          "y": 744.1979207661088
-        },
-        "positionAbsolute": {
-          "x": 1075.829573520873,
-          "y": 657.2057655038416
-        },
-        "resizing": false,
-        "selected": false,
-        "style": {
-          "height": 324,
-          "width": 324
-        },
-        "type": "noteNode",
-        "width": 324
-      },
-      {
-        "data": {
-          "id": "ChatOutput-8ZWWB",
+          "id": "ChatOutput-a3e2w",
           "node": {
             "base_classes": [
               "Message"
@@ -873,7 +844,7 @@
         },
         "dragging": false,
         "height": 234,
-        "id": "ChatOutput-8ZWWB",
+        "id": "ChatOutput-a3e2w",
         "measured": {
           "height": 234,
           "width": 320
@@ -892,38 +863,35 @@
       },
       {
         "data": {
-          "id": "LanguageModelComponent-kBOja",
+          "id": "CoEModelPicker-tbd4i",
           "node": {
             "base_classes": [
-              "LanguageModel",
-              "Message"
+              "Any",
+              "Message",
+              "Text"
             ],
             "beta": false,
             "conditional_paths": [],
             "custom_fields": {},
-            "description": "Runs a language model given a specified provider. ",
-            "display_name": "Language Model",
+            "description": "Pick a model by name then call /v1/chat/completions.",
+            "display_name": "CoE Agents",
             "documentation": "",
             "edited": false,
             "field_order": [
-              "provider",
+              "chat_input",
+              "prompt",
               "model_name",
-              "api_key",
-              "input_value",
-              "system_message",
-              "stream",
-              "temperature"
+              "backend_url",
+              "force_https",
+              "refresh_now"
             ],
             "frozen": false,
-            "icon": "brain-circuit",
+            "icon": "server",
+            "last_updated": "2025-09-15T05:01:31.330Z",
             "legacy": false,
             "metadata": {
-              "keywords": [
-                "model",
-                "llm",
-                "language model",
-                "large language model"
-              ]
+              "code_hash": "33fd6265e66f",
+              "module": "langflow.components.agents.coe_model_picker.CoEModelPicker"
             },
             "minimized": false,
             "output_types": [],
@@ -931,34 +899,51 @@
               {
                 "allows_loop": false,
                 "cache": true,
-                "display_name": "Model Response",
+                "display_name": "Chat Output",
                 "group_outputs": false,
-                "hidden": null,
-                "method": "text_response",
-                "name": "text_output",
+                "method": "run_message",
+                "name": "chat_output",
                 "options": null,
                 "required_inputs": null,
                 "selected": "Message",
                 "tool_mode": true,
                 "types": [
-                  "Message"
+                  "Message",
+                  "Text",
+                  "Any"
                 ],
                 "value": "__UNDEFINED__"
               },
               {
                 "allows_loop": false,
                 "cache": true,
-                "display_name": "Language Model",
+                "display_name": "Text Output",
                 "group_outputs": false,
-                "hidden": null,
-                "method": "build_model",
-                "name": "model_output",
+                "method": "run_text",
+                "name": "text_output",
                 "options": null,
                 "required_inputs": null,
-                "selected": "LanguageModel",
+                "selected": "Text",
                 "tool_mode": true,
                 "types": [
-                  "LanguageModel"
+                  "Text",
+                  "Any"
+                ],
+                "value": "__UNDEFINED__"
+              },
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Model ID",
+                "group_outputs": false,
+                "method": "get_model_id",
+                "name": "model_id",
+                "options": null,
+                "required_inputs": null,
+                "selected": "Text",
+                "tool_mode": true,
+                "types": [
+                  "Text"
                 ],
                 "value": "__UNDEFINED__"
               }
@@ -967,23 +952,54 @@
             "priority": 0,
             "template": {
               "_type": "Component",
-              "api_key": {
-                "_input_type": "SecretStrInput",
-                "advanced": false,
-                "display_name": "OpenAI API Key",
+              "backend_url": {
+                "_input_type": "MultilineInput",
+                "advanced": true,
+                "copy_field": false,
+                "display_name": "CoE Backend URL",
                 "dynamic": false,
-                "info": "Model Provider API key",
-                "input_types": [],
-                "load_from_db": true,
-                "name": "api_key",
-                "password": true,
+                "info": "mac/Windows: http://greatcoe.cafe24.com",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "multiline": true,
+                "name": "backend_url",
                 "placeholder": "",
                 "real_time_refresh": true,
                 "required": false,
                 "show": true,
                 "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
                 "type": "str",
-                "value": "OPENAI_API_KEY"
+                "value": "http://greatcoe.cafe24.com:8080"
+              },
+              "chat_input": {
+                "_input_type": "MessageInput",
+                "advanced": false,
+                "display_name": "Chat Input",
+                "dynamic": false,
+                "info": "User message to send to the selected model.",
+                "input_types": [
+                  "Message"
+                ],
+                "list": false,
+                "list_add_label": "Add More",
+                "load_from_db": false,
+                "name": "chat_input",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": ""
               },
               "code": {
                 "advanced": true,
@@ -1001,88 +1017,43 @@
                 "show": true,
                 "title_case": false,
                 "type": "code",
-                "value": "from typing import Any\n\nfrom langchain_anthropic import ChatAnthropic\nfrom langchain_google_genai import ChatGoogleGenerativeAI\nfrom langchain_openai import ChatOpenAI\n\nfrom langflow.base.models.anthropic_constants import ANTHROPIC_MODELS\nfrom langflow.base.models.google_generative_ai_constants import GOOGLE_GENERATIVE_AI_MODELS\nfrom langflow.base.models.model import LCModelComponent\nfrom langflow.base.models.openai_constants import OPENAI_CHAT_MODEL_NAMES, OPENAI_REASONING_MODEL_NAMES\nfrom langflow.field_typing import LanguageModel\nfrom langflow.field_typing.range_spec import RangeSpec\nfrom langflow.inputs.inputs import BoolInput\nfrom langflow.io import DropdownInput, MessageInput, MultilineInput, SecretStrInput, SliderInput\nfrom langflow.schema.dotdict import dotdict\n\n\nclass LanguageModelComponent(LCModelComponent):\n    display_name = \"Language Model\"\n    description = \"Runs a language model given a specified provider.\"\n    documentation: str = \"https://docs.langflow.org/components-models\"\n    icon = \"brain-circuit\"\n    category = \"models\"\n    priority = 0  # Set priority to 0 to make it appear first\n\n    inputs = [\n        DropdownInput(\n            name=\"provider\",\n            display_name=\"Model Provider\",\n            options=[\"OpenAI\", \"Anthropic\", \"Google\"],\n            value=\"OpenAI\",\n            info=\"Select the model provider\",\n            real_time_refresh=True,\n            options_metadata=[{\"icon\": \"OpenAI\"}, {\"icon\": \"Anthropic\"}, {\"icon\": \"GoogleGenerativeAI\"}],\n        ),\n        DropdownInput(\n            name=\"model_name\",\n            display_name=\"Model Name\",\n            options=OPENAI_CHAT_MODEL_NAMES + OPENAI_REASONING_MODEL_NAMES,\n            value=OPENAI_CHAT_MODEL_NAMES[0],\n            info=\"Select the model to use\",\n            real_time_refresh=True,\n        ),\n        SecretStrInput(\n            name=\"api_key\",\n            display_name=\"OpenAI API Key\",\n            info=\"Model Provider API key\",\n            required=False,\n            show=True,\n            real_time_refresh=True,\n        ),\n        MessageInput(\n            name=\"input_value\",\n            display_name=\"Input\",\n            info=\"The input text to send to the model\",\n        ),\n        MultilineInput(\n            name=\"system_message\",\n            display_name=\"System Message\",\n            info=\"A system message that helps set the behavior of the assistant\",\n            advanced=False,\n        ),\n        BoolInput(\n            name=\"stream\",\n            display_name=\"Stream\",\n            info=\"Whether to stream the response\",\n            value=False,\n            advanced=True,\n        ),\n        SliderInput(\n            name=\"temperature\",\n            display_name=\"Temperature\",\n            value=0.1,\n            info=\"Controls randomness in responses\",\n            range_spec=RangeSpec(min=0, max=1, step=0.01),\n            advanced=True,\n        ),\n    ]\n\n    def build_model(self) -> LanguageModel:\n        provider = self.provider\n        model_name = self.model_name\n        temperature = self.temperature\n        stream = self.stream\n\n        if provider == \"OpenAI\":\n            if not self.api_key:\n                msg = \"OpenAI API key is required when using OpenAI provider\"\n                raise ValueError(msg)\n\n            if model_name in OPENAI_REASONING_MODEL_NAMES:\n                # reasoning models do not support temperature (yet)\n                temperature = None\n\n            return ChatOpenAI(\n                model_name=model_name,\n                temperature=temperature,\n                streaming=stream,\n                openai_api_key=self.api_key,\n            )\n        if provider == \"Anthropic\":\n            if not self.api_key:\n                msg = \"Anthropic API key is required when using Anthropic provider\"\n                raise ValueError(msg)\n            return ChatAnthropic(\n                model=model_name,\n                temperature=temperature,\n                streaming=stream,\n                anthropic_api_key=self.api_key,\n            )\n        if provider == \"Google\":\n            if not self.api_key:\n                msg = \"Google API key is required when using Google provider\"\n                raise ValueError(msg)\n            return ChatGoogleGenerativeAI(\n                model=model_name,\n                temperature=temperature,\n                streaming=stream,\n                google_api_key=self.api_key,\n            )\n        msg = f\"Unknown provider: {provider}\"\n        raise ValueError(msg)\n\n    def update_build_config(self, build_config: dotdict, field_value: Any, field_name: str | None = None) -> dotdict:\n        if field_name == \"provider\":\n            if field_value == \"OpenAI\":\n                build_config[\"model_name\"][\"options\"] = OPENAI_CHAT_MODEL_NAMES + OPENAI_REASONING_MODEL_NAMES\n                build_config[\"model_name\"][\"value\"] = OPENAI_CHAT_MODEL_NAMES[0]\n                build_config[\"api_key\"][\"display_name\"] = \"OpenAI API Key\"\n            elif field_value == \"Anthropic\":\n                build_config[\"model_name\"][\"options\"] = ANTHROPIC_MODELS\n                build_config[\"model_name\"][\"value\"] = ANTHROPIC_MODELS[0]\n                build_config[\"api_key\"][\"display_name\"] = \"Anthropic API Key\"\n            elif field_value == \"Google\":\n                build_config[\"model_name\"][\"options\"] = GOOGLE_GENERATIVE_AI_MODELS\n                build_config[\"model_name\"][\"value\"] = GOOGLE_GENERATIVE_AI_MODELS[0]\n                build_config[\"api_key\"][\"display_name\"] = \"Google API Key\"\n        elif field_name == \"model_name\" and field_value.startswith(\"o1\") and self.provider == \"OpenAI\":\n            # Hide system_message for o1 models - currently unsupported\n            if \"system_message\" in build_config:\n                build_config[\"system_message\"][\"show\"] = False\n        elif field_name == \"model_name\" and not field_value.startswith(\"o1\") and \"system_message\" in build_config:\n            build_config[\"system_message\"][\"show\"] = True\n        return build_config\n"
+                "value": "# coe_model_picker.py\n# -*- coding: utf-8 -*-\nfrom __future__ import annotations\n\nimport json\nimport os\nimport socket\nfrom typing import Any, Dict, List, Tuple, Optional\n\n# stdlib HTTP\nimport urllib.request as urlreq\nfrom urllib.error import URLError\n\nfrom langflow.custom.custom_component.component import Component\nfrom langflow.inputs.inputs import BoolInput, MessageInput, MultilineInput\nfrom langflow.io import DropdownInput, Output\n\n# Langflow Message (버전 호환)\ntry:\n    from langflow.schema.message import Message  # Langflow >= 1.0\nexcept Exception:  # pragma: no cover\n    try:\n        from langflow.schema import Message  # 일부 구버전\n    except Exception:  # pragma: no cover\n        Message = None  # type: ignore\n\nALLOWED_OWNERS = {\"openai\", \"sktax\"}\nDEFAULT_BACKEND = os.getenv(\"COE_BACKEND_URL\", \"http://host.docker.internal:8000\").strip().rstrip(\"/\")\n\n\ndef _http_get_json(url: str, timeout: float = 8.0) -> Dict[str, Any]:\n    req = urlreq.Request(url, headers={\"User-Agent\": \"langflow\"})\n    with urlreq.urlopen(req, timeout=timeout) as r:\n        return json.loads(r.read().decode(\"utf-8\"))\n\n\ndef _http_post_json(url: str, payload: Dict[str, Any], timeout: float = 30.0) -> Dict[str, Any]:\n    data = json.dumps(payload).encode(\"utf-8\")\n    req = urlreq.Request(url, data=data, headers={\"Content-Type\": \"application/json\", \"User-Agent\": \"langflow\"})\n    with urlreq.urlopen(req, timeout=timeout) as r:\n        return json.loads(r.read().decode(\"utf-8\"))\n\n\nclass CoEModelPicker(Component):\n    \"\"\"\n    /v1/models에서 모델 목록을 name으로 표시(owned_by ∈ {openai, sktax} 필터),\n    선택한 모델로 /v1/chat/completions를 호출합니다.\n\n    출력:\n      - chat_output (Message 타입): Chat Output 싱크에 연결\n      - text_output (Text 타입): Text Output 싱크에 연결\n      - model_id (Text): 선택 모델의 id\n    \"\"\"\n\n    display_name = \"CoE Agents\"\n    description = \"Pick a model by name then call /v1/chat/completions.\"\n    icon = \"server\"\n    category = \"agents\"\n    priority = 0\n\n    # name -> id 매핑(런타임에 채움)\n    _name_to_id: Dict[str, str] = {}\n    # 최근 호출 결과 캐시\n    _last_text: Optional[str] = None\n\n    # ★ 첫 렌더링(마운트) 시 자동 로드 제어 플래그\n    _did_initial_fetch: bool = False\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # Inputs\n    inputs = [\n        MessageInput(\n            name=\"chat_input\",\n            display_name=\"Chat Input\",\n            info=\"User message to send to the selected model.\",\n        ),\n        MultilineInput(\n            name=\"prompt\",\n            display_name=\"Prompt (System)\",\n            info=\"Optional system prompt (system role).\",\n        ),\n        DropdownInput(\n            name=\"model_name\",\n            display_name=\"Model\",\n            # ★ 초기엔 빈 옵션으로 두고(placeholder 제거) 자동 로드 유도\n            options=[],\n            value=\"\",\n            info=\"Models filtered by owned_by (openai, sktax).\",\n            real_time_refresh=True,\n        ),\n        MultilineInput(\n            name=\"backend_url\",\n            display_name=\"CoE Backend URL\",\n            value=DEFAULT_BACKEND,\n            info=\"mac/Windows: http://greatcoe.cafe24.com\",\n            advanced=True,\n            real_time_refresh=True,\n        ),\n        BoolInput(\n            name=\"force_https\",\n            display_name=\"Force HTTPS\",\n            value=False,\n            advanced=True,\n            real_time_refresh=True,\n        ),\n        BoolInput(\n            name=\"refresh_now\",\n            display_name=\"Refresh models now\",\n            value=False,\n            info=\"Toggle to refresh the model list.\",\n            advanced=True,\n            real_time_refresh=True,\n        ),\n    ]\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # Outputs\n    outputs = [\n        Output(\n            display_name=\"Chat Output\",\n            name=\"chat_output\",\n            method=\"run_message\",\n            types=[\"Message\", \"Text\", \"Any\"],\n            selected=\"Message\",\n        ),\n        Output(\n            display_name=\"Text Output\",\n            name=\"text_output\",\n            method=\"run_text\",\n            types=[\"Text\", \"Any\"],\n            selected=\"Text\",\n        ),\n        Output(\n            display_name=\"Model ID\",\n            name=\"model_id\",\n            method=\"get_model_id\",\n            types=[\"Text\"],\n            selected=\"Text\",\n        ),\n    ]\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # 내부 유틸\n    @staticmethod\n    def _normalize(base: str, force_https: bool) -> str:\n        base = (base or DEFAULT_BACKEND).strip()\n        if force_https and base.startswith(\"http://\"):\n            base = \"https://\" + base[len(\"http://\") :]\n        return base.rstrip(\"/\")\n\n    @staticmethod\n    def _linux_fallback(base: str) -> str:\n        return base.replace(\"host.docker.internal\", \"172.17.0.1\") if \"host.docker.internal\" in base else base\n\n    @staticmethod\n    def _fallback_pairs() -> List[Tuple[str, str]]:\n        return [\n            (\"GPT-4o Mini\", \"gpt-4o-mini\"),\n            (\"GPT-4o\", \"gpt-4o\"),\n            (\"text-embedding-3-small\", \"text-embedding-3-small\"),\n            (\"AX4 Model\", \"ax4\"),\n        ]\n\n    def _fetch_models(self, base_url: str) -> List[Tuple[str, str]]:\n        \"\"\"서버에서 모델 목록을 받아 (name, id)로 반환(필터 적용)\"\"\"\n        url = base_url + \"/v1/models\"\n\n        def _try(u: str) -> Dict[str, Any]:\n            return _http_get_json(u, timeout=8.0)\n\n        try:\n            payload = _try(url)\n        except (URLError, OSError, socket.gaierror):\n            fb = self._linux_fallback(base_url) + \"/v1/models\"\n            self.log(f\"[CoEModelPicker] retry: {fb}\")\n            payload = _try(fb)\n\n        data = (payload.get(\"result\") or {}).get(\"data\") or payload.get(\"data\") or []\n        pairs: List[Tuple[str, str]] = []\n        for item in data:\n            if not isinstance(item, dict):\n                continue\n            owner = str(item.get(\"owned_by\") or \"\").strip().lower()\n            if owner not in ALLOWED_OWNERS:\n                continue\n            mid = str(item.get(\"id\") or \"\").strip()\n            name = str(item.get(\"name\") or mid).strip()\n            if mid and name:\n                pairs.append((name, mid))\n        pairs.sort(key=lambda x: x[0].lower())\n        return pairs\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # 동적 UI 반영\n    def update_build_config(self, build_config, field_value: Any, field_name: str | None = None):\n        current_base = build_config.get(\"backend_url\", {}).get(\"value\", DEFAULT_BACKEND)\n        current_force_https = bool(build_config.get(\"force_https\", {}).get(\"value\", False))\n        if field_name == \"backend_url\":\n            current_base = field_value\n        elif field_name == \"force_https\":\n            current_force_https = bool(field_value)\n\n        base = self._normalize(current_base, current_force_https)\n\n        current_options = build_config.get(\"model_name\", {}).get(\"options\") or []\n        current_value = (build_config.get(\"model_name\", {}) or {}).get(\"value\") or \"\"\n\n        # ★ 최초 마운트 또는 옵션이 비어있을 때/수동 토글 시 새로고침\n        should_refresh = (\n            not self._did_initial_fetch\n            or field_name in {\"backend_url\", \"force_https\", \"refresh_now\"}\n            or not current_options\n            or current_value == \"(click Refresh models now)\"\n        )\n\n        if should_refresh:\n            try:\n                pairs = self._fetch_models(base)\n                if pairs:\n                    self._name_to_id = {name: mid for name, mid in pairs}\n                    names = list(self._name_to_id.keys())\n                    build_config[\"model_name\"][\"options\"] = names\n                    if not current_value or current_value not in names:\n                        build_config[\"model_name\"][\"value\"] = names[0]\n                    self._did_initial_fetch = True  # ★ 한 번 성공하면 플래그 켜기\n                    self.log(f\"[CoEModelPicker] models loaded: {len(names)} from {base}\")\n                else:\n                    # 서버 응답이 비었을 때 폴백\n                    pairs = self._fallback_pairs()\n                    self._name_to_id = {n: i for n, i in pairs}\n                    names = [n for n, _ in pairs]\n                    build_config[\"model_name\"][\"options\"] = names\n                    if not current_value or current_value not in names:\n                        build_config[\"model_name\"][\"value\"] = names[0]\n                    self._did_initial_fetch = True\n                    self.log(\"[CoEModelPicker] server returned empty; using fallback\")\n            except Exception as e:\n                # 실패 시 폴백 후에도 초기화 완료 처리 (UI가 비지 않도록)\n                pairs = self._fallback_pairs()\n                self._name_to_id = {n: i for n, i in pairs}\n                names = [n for n, _ in pairs]\n                build_config[\"model_name\"][\"options\"] = names\n                if not current_value or current_value not in names:\n                    build_config[\"model_name\"][\"value\"] = names[0]\n                self._did_initial_fetch = True\n                self.log(f\"[CoEModelPicker] fetch failed: {e}; using fallback list\")\n\n            # ★ 수동 토글이 켜져 있으면 끄면서(체크 해제) UI 깜빡임 방지\n            if \"refresh_now\" in build_config:\n                build_config[\"refresh_now\"][\"value\"] = False\n\n        return build_config\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # 입력 수집\n    def _collect_inputs(self) -> Tuple[str, str, str, str, bool]:\n        # chat_input → Message 객체(.text) 또는 dict(data.text) 또는 str\n        chat_text = \"\"\n        msg = getattr(self, \"chat_input\", None)\n        try:\n            if msg is not None:\n                # Message 타입\n                chat_text = getattr(msg, \"text\", \"\") or \"\"\n                if not chat_text and hasattr(msg, \"data\") and isinstance(msg.data, dict):\n                    chat_text = msg.data.get(\"text\") or \"\"\n                if not chat_text and isinstance(msg, str):\n                    chat_text = msg\n        except Exception:\n            pass\n\n        prompt = (getattr(self, \"prompt\", \"\") or \"\").strip()\n        model_name = (getattr(self, \"model_name\", \"\") or \"\").strip()\n        backend_url = (getattr(self, \"backend_url\", \"\") or DEFAULT_BACKEND).strip()\n        force_https = bool(getattr(self, \"force_https\", False))\n        return chat_text, prompt, model_name, backend_url, force_https\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # 공통 호출(한 번만 호출해서 캐시)\n    def _call_chat(\n        self,\n        chat_input: str,\n        prompt: str,\n        model_name: str,\n        backend_url: str,\n        force_https: bool,\n    ) -> str:\n        if self._last_text is not None:\n            return self._last_text\n\n        model_id = self._name_to_id.get(model_name or \"\", \"\")\n        if not model_id:\n            fpairs = self._fallback_pairs()\n            if fpairs:\n                model_id = fpairs[0][1]\n\n        base = self._normalize(backend_url or DEFAULT_BACKEND, bool(force_https))\n        url = base + \"/v1/chat/completions\"\n        fb = self._linux_fallback(base)\n\n        messages: List[Dict[str, Any]] = []\n        if prompt:\n            messages.append({\"role\": \"system\", \"content\": str(prompt)})\n        messages.append({\"role\": \"user\", \"content\": str(chat_input or \"\")})\n\n        payload = {\"model\": model_id or (model_name or \"\"), \"messages\": messages}\n\n        def _try(u: str) -> Dict[str, Any]:\n            return _http_post_json(u, payload, timeout=30.0)\n\n        try:\n            resp = _try(url)\n        except (URLError, OSError, socket.gaierror):\n            if base != fb:\n                resp = _try(fb + \"/v1/chat/completions\")\n            else:\n                raise\n\n        try:\n            choice0 = (resp.get(\"choices\") or [])[0]\n            msg = (choice0.get(\"message\") or {})\n            content = msg.get(\"content\") or \"\"\n            self._last_text = str(content)\n            return self._last_text\n        except Exception:\n            self._last_text = json.dumps(resp, ensure_ascii=False)[:2000]\n            return self._last_text\n\n    # ─────────────────────────────────────────────────────────────────────────\n    # Outputs 구현\n    def run_message(self, **kwargs: Any):\n        chat_text, prompt, model_name, backend_url, force_https = self._collect_inputs()\n        text = self._call_chat(chat_text, prompt, model_name, backend_url, force_https)\n        if Message is not None:\n            try:\n                return Message(text=text)\n            except Exception:\n                pass\n        # 폴백: Langflow가 dict도 표시 가능\n        return {\"text\": text, \"sender\": \"AI\"}\n\n    def run_text(self, **kwargs: Any) -> str:\n        chat_text, prompt, model_name, backend_url, force_https = self._collect_inputs()\n        return self._call_chat(chat_text, prompt, model_name, backend_url, force_https)\n\n    def get_model_id(self) -> str:\n        name = (getattr(self, \"model_name\", \"\") or \"\").strip()\n        return self._name_to_id.get(name, \"\")\n"
               },
-              "input_value": {
-                "_input_type": "MessageInput",
-                "advanced": false,
-                "display_name": "Input",
+              "force_https": {
+                "_input_type": "BoolInput",
+                "advanced": true,
+                "display_name": "Force HTTPS",
                 "dynamic": false,
-                "info": "The input text to send to the model",
-                "input_types": [
-                  "Message"
-                ],
+                "info": "",
                 "list": false,
                 "list_add_label": "Add More",
-                "load_from_db": false,
-                "name": "input_value",
+                "name": "force_https",
                 "placeholder": "",
+                "real_time_refresh": true,
                 "required": false,
                 "show": true,
                 "title_case": false,
                 "tool_mode": false,
-                "trace_as_input": true,
                 "trace_as_metadata": true,
-                "type": "str",
-                "value": ""
+                "type": "bool",
+                "value": false
               },
               "model_name": {
                 "_input_type": "DropdownInput",
                 "advanced": false,
                 "combobox": false,
                 "dialog_inputs": {},
-                "display_name": "Model Name",
+                "display_name": "Model",
                 "dynamic": false,
-                "info": "Select the model to use",
+                "info": "Models filtered by owned_by (openai, sktax).",
                 "name": "model_name",
                 "options": [
-                  "gpt-4o-mini",
-                  "gpt-4o",
-                  "gpt-4.1",
-                  "gpt-4.1-mini",
-                  "gpt-4.1-nano",
-                  "gpt-4.5-preview",
-                  "gpt-4-turbo",
-                  "gpt-4-turbo-preview",
-                  "gpt-4",
-                  "gpt-3.5-turbo"
+                  "AX4 Model",
+                  "GPT-4o",
+                  "GPT-4o Mini",
+                  "OpenAI Embedding v3 Small"
                 ],
                 "options_metadata": [],
-                "placeholder": "",
-                "required": false,
-                "show": true,
-                "title_case": false,
-                "toggle": false,
-                "tool_mode": false,
-                "trace_as_metadata": true,
-                "type": "str",
-                "value": "gpt-4o-mini"
-              },
-              "provider": {
-                "_input_type": "DropdownInput",
-                "advanced": false,
-                "combobox": false,
-                "dialog_inputs": {},
-                "display_name": "Model Provider",
-                "dynamic": false,
-                "info": "Select the model provider",
-                "name": "provider",
-                "options": [
-                  "OpenAI",
-                  "Anthropic",
-                  "Google"
-                ],
-                "options_metadata": [
-                  {
-                    "icon": "OpenAI"
-                  },
-                  {
-                    "icon": "Anthropic"
-                  },
-                  {
-                    "icon": "GoogleGenerativeAI"
-                  }
-                ],
                 "placeholder": "",
                 "real_time_refresh": true,
                 "required": false,
@@ -1092,33 +1063,15 @@
                 "tool_mode": false,
                 "trace_as_metadata": true,
                 "type": "str",
-                "value": "OpenAI"
+                "value": "AX4 Model"
               },
-              "stream": {
-                "_input_type": "BoolInput",
-                "advanced": true,
-                "display_name": "Stream",
-                "dynamic": false,
-                "info": "Whether to stream the response",
-                "list": false,
-                "list_add_label": "Add More",
-                "name": "stream",
-                "placeholder": "",
-                "required": false,
-                "show": true,
-                "title_case": false,
-                "tool_mode": false,
-                "trace_as_metadata": true,
-                "type": "bool",
-                "value": false
-              },
-              "system_message": {
+              "prompt": {
                 "_input_type": "MultilineInput",
                 "advanced": false,
                 "copy_field": false,
-                "display_name": "System Message",
+                "display_name": "Prompt (System)",
                 "dynamic": false,
-                "info": "A system message that helps set the behavior of the assistant",
+                "info": "Optional system prompt (system role).",
                 "input_types": [
                   "Message"
                 ],
@@ -1126,7 +1079,7 @@
                 "list_add_label": "Add More",
                 "load_from_db": false,
                 "multiline": true,
-                "name": "system_message",
+                "name": "prompt",
                 "placeholder": "",
                 "required": false,
                 "show": true,
@@ -1137,64 +1090,55 @@
                 "type": "str",
                 "value": ""
               },
-              "temperature": {
-                "_input_type": "SliderInput",
+              "refresh_now": {
+                "_input_type": "BoolInput",
                 "advanced": true,
-                "display_name": "Temperature",
+                "display_name": "Refresh models now",
                 "dynamic": false,
-                "info": "Controls randomness in responses",
-                "max_label": "",
-                "max_label_icon": "",
-                "min_label": "",
-                "min_label_icon": "",
-                "name": "temperature",
+                "info": "Toggle to refresh the model list.",
+                "list": false,
+                "list_add_label": "Add More",
+                "name": "refresh_now",
                 "placeholder": "",
-                "range_spec": {
-                  "max": 1,
-                  "min": 0,
-                  "step": 0.01,
-                  "step_type": "float"
-                },
+                "real_time_refresh": true,
                 "required": false,
                 "show": true,
-                "slider_buttons": false,
-                "slider_buttons_options": [],
-                "slider_input": false,
                 "title_case": false,
                 "tool_mode": false,
-                "type": "slider",
-                "value": 0.1
+                "trace_as_metadata": true,
+                "type": "bool",
+                "value": false
               }
             },
             "tool_mode": false
           },
-          "selected_output": "text_output",
+          "selected_output": "chat_output",
           "showNode": true,
-          "type": "LanguageModelComponent"
+          "type": "CoEModelPicker"
         },
         "dragging": false,
-        "id": "LanguageModelComponent-kBOja",
+        "id": "CoEModelPicker-tbd4i",
         "measured": {
-          "height": 534,
+          "height": 384,
           "width": 320
         },
         "position": {
-          "x": 1085.7542386472996,
-          "y": 795.0399905192078
+          "x": 1084.724452379434,
+          "y": 804.9212996358931
         },
-        "selected": true,
+        "selected": false,
         "type": "genericNode"
       }
     ],
     "viewport": {
-      "x": -171.73930599141136,
-      "y": -281.4054320344371,
-      "zoom": 0.7267911009473667
+      "x": -144.53404364583957,
+      "y": -507.2065447874029,
+      "zoom": 0.880500792046506
     }
   },
-  "description": "Perform basic prompting with an OpenAI model.",
+  "description": "LLM모델을 활용한 Basic Prompring.",
   "endpoint_name": null,
-  "id": "0dbee653-41ae-4e51-af2e-55757fb24be3",
+  "id": "9b6b68af-6b6c-4e29-a0b7-edeea7b9339e",
   "is_component": false,
   "last_tested_version": "1.5.0",
   "name": "Basic Prompting",

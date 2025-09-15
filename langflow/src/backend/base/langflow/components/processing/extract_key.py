@@ -11,7 +11,7 @@ class ExtractDataKeyComponent(Component):
     )
     icon = "key"
     name = "ExtractaKey"
-    legacy = True
+    #legacy = True
 
     inputs = [
         DataInput(

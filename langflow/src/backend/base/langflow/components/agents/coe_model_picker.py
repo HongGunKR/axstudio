@@ -11,9 +11,13 @@ from typing import Any, Dict, List, Tuple, Optional
 import urllib.request as urlreq
 from urllib.error import URLError
 
-from langflow.custom.custom_component.component import Component
+from langflow.custom.custom_component.component import Component, _get_component_toolkit
 from langflow.inputs.inputs import BoolInput, MessageInput, MultilineInput
 from langflow.io import DropdownInput, Output
+
+# ✅ tools 입력 활성화를 위해 추가
+from langflow.base.agents.agent import LCToolsAgentComponent
+from langflow.field_typing import Tool  # noqa: F401  (입력 타입 선언용)
 
 # Langflow Message (버전 호환)
 try:
@@ -46,6 +50,9 @@ class CoEModelPicker(Component):
     /v1/models에서 모델 목록을 name으로 표시(owned_by ∈ {openai, sktax} 필터),
     선택한 모델로 /v1/chat/completions를 호출합니다.
 
+    추가:
+      - tools 입력을 받아 OpenAI Tool Calling 포맷으로 직렬화하여 페이로드에 포함합니다.
+
     출력:
       - chat_output (Message 타입): Chat Output 싱크에 연결
       - text_output (Text 타입): Text Output 싱크에 연결
@@ -53,7 +60,7 @@ class CoEModelPicker(Component):
     """
 
     display_name = "CoE Agents"
-    description = "Pick a model by name then call /v1/chat/completions."
+    description = "Pick a model by name then call /v1/chat/completions. (Supports Tools)"
     icon = "server"
     category = "agents"
     priority = 0
@@ -69,6 +76,7 @@ class CoEModelPicker(Component):
     # ─────────────────────────────────────────────────────────────────────────
     # Inputs
     inputs = [
+        # ── 기본 대화 입력
         MessageInput(
             name="chat_input",
             display_name="Chat Input",
@@ -79,15 +87,18 @@ class CoEModelPicker(Component):
             display_name="Prompt (System)",
             info="Optional system prompt (system role).",
         ),
+
+        # ── 모델 선택
         DropdownInput(
             name="model_name",
             display_name="Model",
-            # ★ 초기엔 빈 옵션으로 두고(placeholder 제거) 자동 로드 유도
             options=[],
             value="",
             info="Models filtered by owned_by (openai, sktax).",
             real_time_refresh=True,
         ),
+
+        # ── 백엔드/네트워크 옵션
         MultilineInput(
             name="backend_url",
             display_name="CoE Backend URL",
@@ -110,6 +121,30 @@ class CoEModelPicker(Component):
             info="Toggle to refresh the model list.",
             advanced=True,
             real_time_refresh=True,
+        ),
+
+        # ─────────────────────────────────────────────────────────────────
+        # ✅ Tools 관련 입력 (Langflow Agent 컴포넌트와 동일한 UX 제공)
+        #     - LCToolsAgentComponent._base_inputs 내부에 'tools', 'agent_description' 등 포함
+        #     - 이 리스트를 그대로 병합하여 tools 선택 UI를 활성화
+        *LCToolsAgentComponent._base_inputs,
+
+        # 툴 사용 on/off 스위치 (선택)
+        BoolInput(
+            name="enable_tools",
+            display_name="Enable Tools (Tool Calling)",
+            value=True,
+            info="If enabled and tools are provided, they will be sent to /v1/chat/completions as OpenAI-style tools.",
+            advanced=True,
+            real_time_refresh=False,
+        ),
+        BoolInput(
+            name="tool_choice_auto",
+            display_name='tool_choice = "auto"',
+            value=True,
+            info='If true, sets {"tool_choice": "auto"} in the request payload.',
+            advanced=True,
+            real_time_refresh=False,
         ),
     ]
 
@@ -253,7 +288,7 @@ class CoEModelPicker(Component):
 
     # ─────────────────────────────────────────────────────────────────────────
     # 입력 수집
-    def _collect_inputs(self) -> Tuple[str, str, str, str, bool]:
+    def _collect_inputs(self) -> Tuple[str, str, str, str, bool, bool, bool]:
         # chat_input → Message 객체(.text) 또는 dict(data.text) 또는 str
         chat_text = ""
         msg = getattr(self, "chat_input", None)
@@ -272,7 +307,62 @@ class CoEModelPicker(Component):
         model_name = (getattr(self, "model_name", "") or "").strip()
         backend_url = (getattr(self, "backend_url", "") or DEFAULT_BACKEND).strip()
         force_https = bool(getattr(self, "force_https", False))
-        return chat_text, prompt, model_name, backend_url, force_https
+        enable_tools = bool(getattr(self, "enable_tools", True))
+        tool_choice_auto = bool(getattr(self, "tool_choice_auto", True))
+        return chat_text, prompt, model_name, backend_url, force_https, enable_tools, tool_choice_auto
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # Tools 직렬화
+    def _build_tools_payload(self) -> List[Dict[str, Any]]:
+        """
+        Langflow에서 선택된 self.tools를 StructuredTool로 빌드한 뒤
+        OpenAI Tool Calling 포맷으로 직렬화하여 반환합니다.
+        """
+        try:
+            # Langflow 표준 방식으로 toolkits 생성
+            component_toolkit = _get_component_toolkit()
+            # 참고 소스와 동일한 명칭 사용 (Call_Agent)
+            tools = component_toolkit(component=self).get_tools(
+                tool_name="Call_Agent",
+                tool_description=self.get_tool_description() if hasattr(self, "get_tool_description") else "",
+                callbacks=None,
+            )
+        except Exception as e:
+            self.log(f"[CoEModelPicker] tool toolkit build failed: {e}")
+            return []
+
+        tools_payload: List[Dict[str, Any]] = []
+        for t in tools or []:
+            try:
+                name = getattr(t, "name", None) or ""
+                description = getattr(t, "description", "") or ""
+                # args_schema -> JSON Schema
+                schema = {}
+                args_schema = getattr(t, "args_schema", None)
+                if args_schema is not None:
+                    try:
+                        schema = args_schema.schema()
+                    except Exception:
+                        schema = {"type": "object", "properties": {}}
+                else:
+                    schema = {"type": "object", "properties": {}}
+
+                if name:
+                    tools_payload.append(
+                        {
+                            "type": "function",
+                            "function": {
+                                "name": name,
+                                "description": description,
+                                "parameters": schema,
+                            },
+                        }
+                    )
+            except Exception as e:
+                self.log(f"[CoEModelPicker] tool serialize failed: {e}")
+                continue
+
+        return tools_payload
 
     # ─────────────────────────────────────────────────────────────────────────
     # 공통 호출(한 번만 호출해서 캐시)
@@ -283,6 +373,8 @@ class CoEModelPicker(Component):
         model_name: str,
         backend_url: str,
         force_https: bool,
+        enable_tools: bool,
+        tool_choice_auto: bool,
     ) -> str:
         if self._last_text is not None:
             return self._last_text
@@ -302,7 +394,15 @@ class CoEModelPicker(Component):
             messages.append({"role": "system", "content": str(prompt)})
         messages.append({"role": "user", "content": str(chat_input or "")})
 
-        payload = {"model": model_id or (model_name or ""), "messages": messages}
+        payload: Dict[str, Any] = {"model": model_id or (model_name or ""), "messages": messages}
+
+        # ✅ Tools 포함
+        if enable_tools:
+            tools_payload = self._build_tools_payload()
+            if tools_payload:
+                payload["tools"] = tools_payload
+                if tool_choice_auto:
+                    payload["tool_choice"] = "auto"
 
         def _try(u: str) -> Dict[str, Any]:
             return _http_post_json(u, payload, timeout=30.0)
@@ -319,6 +419,8 @@ class CoEModelPicker(Component):
             choice0 = (resp.get("choices") or [])[0]
             msg = (choice0.get("message") or {})
             content = msg.get("content") or ""
+
+            # 기본적으로 텍스트 응답을 우선. 필요 시 tool_calls를 요약해 함께 노출하도록 확장 가능.
             self._last_text = str(content)
             return self._last_text
         except Exception:
@@ -328,8 +430,16 @@ class CoEModelPicker(Component):
     # ─────────────────────────────────────────────────────────────────────────
     # Outputs 구현
     def run_message(self, **kwargs: Any):
-        chat_text, prompt, model_name, backend_url, force_https = self._collect_inputs()
-        text = self._call_chat(chat_text, prompt, model_name, backend_url, force_https)
+        (
+            chat_text,
+            prompt,
+            model_name,
+            backend_url,
+            force_https,
+            enable_tools,
+            tool_choice_auto,
+        ) = self._collect_inputs()
+        text = self._call_chat(chat_text, prompt, model_name, backend_url, force_https, enable_tools, tool_choice_auto)
         if Message is not None:
             try:
                 return Message(text=text)
@@ -339,8 +449,16 @@ class CoEModelPicker(Component):
         return {"text": text, "sender": "AI"}
 
     def run_text(self, **kwargs: Any) -> str:
-        chat_text, prompt, model_name, backend_url, force_https = self._collect_inputs()
-        return self._call_chat(chat_text, prompt, model_name, backend_url, force_https)
+        (
+            chat_text,
+            prompt,
+            model_name,
+            backend_url,
+            force_https,
+            enable_tools,
+            tool_choice_auto,
+        ) = self._collect_inputs()
+        return self._call_chat(chat_text, prompt, model_name, backend_url, force_https, enable_tools, tool_choice_auto)
 
     def get_model_id(self) -> str:
         name = (getattr(self, "model_name", "") or "").strip()

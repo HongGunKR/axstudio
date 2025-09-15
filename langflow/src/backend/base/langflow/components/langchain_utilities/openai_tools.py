@@ -15,6 +15,7 @@ class OpenAIToolsAgentComponent(LCToolsAgentComponent):
     description: str = "Agent that uses tools via openai-tools."
     icon = "LangChain"
     name = "OpenAIToolsAgent"
+    legacy = True
 
     inputs = [
         *LCToolsAgentComponent._base_inputs,

@@ -11,7 +11,7 @@ class AzureChatOpenAIComponent(LCModelComponent):
     display_name: str = "Azure OpenAI"
     description: str = "Generate text using Azure OpenAI LLMs."
     documentation: str = "https://python.langchain.com/docs/integrations/llms/azure_openai"
-    beta = False
+    legacy = True
     icon = "Azure"
     name = "AzureOpenAIModel"
 

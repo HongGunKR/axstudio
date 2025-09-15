@@ -12,6 +12,7 @@ class LanguageRecursiveTextSplitterComponent(LCTextSplitterComponent):
     documentation: str = "https://docs.langflow.org/components/text-splitters#languagerecursivetextsplitter"
     name = "LanguageRecursiveTextSplitter"
     icon = "LangChain"
+    legacy = True
 
     inputs = [
         IntInput(

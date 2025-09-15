@@ -62,11 +62,11 @@ export default function TemplatesModal({
       <BaseModal.Content className="flex flex-col p-0">
         <div className="flex h-full">
           <SidebarProvider width="15rem" defaultOpen={false}>
-            <Nav
+  {/*           <Nav
               categories={categories}
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
-            />
+            /> */}
             <main className="flex flex-1 flex-col gap-4 overflow-auto p-6 md:gap-8">
               {currentTab === "get-started" ? (
                 <GetStartedComponent />
@@ -79,9 +79,9 @@ export default function TemplatesModal({
               <BaseModal.Footer>
                 <div className="flex w-full flex-col justify-between gap-4 pb-4 sm:flex-row sm:items-center">
                   <div className="flex flex-col items-start justify-center">
-                    <div className="font-semibold">Start from scratch</div>
+                    <div className="font-semibold">새롭게 시작하기</div>
                     <div className="text-sm text-muted-foreground">
-                      Begin with a fresh flow to build from scratch.
+                      빈 Flow로 처음부터 직접 만들 수 있어요.
                     </div>
                   </div>
                   <Button

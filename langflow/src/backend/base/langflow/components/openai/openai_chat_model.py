@@ -19,6 +19,7 @@ class OpenAIModelComponent(LCModelComponent):
     description = "Generates text using OpenAI LLMs."
     icon = "OpenAI"
     name = "OpenAIModel"
+    legacy = True
 
     inputs = [
         *LCModelComponent._base_inputs,

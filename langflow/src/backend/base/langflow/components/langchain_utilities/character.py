@@ -13,6 +13,7 @@ class CharacterTextSplitterComponent(LCTextSplitterComponent):
     documentation = "https://docs.langflow.org/components/text-splitters#charactertextsplitter"
     name = "CharacterTextSplitter"
     icon = "LangChain"
+    legacy = True
 
     inputs = [
         IntInput(

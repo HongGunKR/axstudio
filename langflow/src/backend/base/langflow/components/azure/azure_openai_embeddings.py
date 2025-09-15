@@ -12,6 +12,7 @@ class AzureOpenAIEmbeddingsComponent(LCModelComponent):
     documentation: str = "https://python.langchain.com/docs/integrations/text_embedding/azureopenai"
     icon = "Azure"
     name = "AzureOpenAIEmbeddings"
+    legacy = True
 
     API_VERSION_OPTIONS = [
         "2022-12-01",

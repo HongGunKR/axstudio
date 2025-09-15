@@ -11,7 +11,7 @@ class OutputParserComponent(Component):
     description = "Transforms the output of an LLM into a specified format."
     icon = "type"
     name = "OutputParser"
-    legacy = True
+    #legacy = True
 
     inputs = [
         DropdownInput(

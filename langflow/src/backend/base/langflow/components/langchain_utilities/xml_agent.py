@@ -14,8 +14,9 @@ class XMLAgentComponent(LCToolsAgentComponent):
     display_name: str = "XML Agent"
     description: str = "Agent that uses tools formatting instructions as xml to the Language Model."
     icon = "LangChain"
-    beta = True
+    #beta = True
     name = "XMLAgent"
+    legacy = True
     inputs = [
         *LCToolsAgentComponent._base_inputs,
         HandleInput(name="llm", display_name="Language Model", input_types=["LanguageModel"], required=True),
