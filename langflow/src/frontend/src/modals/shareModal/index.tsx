@@ -278,7 +278,7 @@ export default function ShareModal({
                   }}
                 >
                   <IconComponent name="Download" className="h-4 w-4" />
-                  Export
+                  신청/다운로드
                 </Button>
               </ExportModal>
             )}
@@ -293,7 +293,7 @@ export default function ShareModal({
                 }}
               >
                 <IconComponent name="Download" className="h-4 w-4" />
-                Export
+                신청/다운로드
               </Button>
             )}
           </>

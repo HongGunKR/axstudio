@@ -104,7 +104,7 @@ export const limitScrollFieldsModal = 10;
  * The base text for subtitle of Export Dialog (Toolbar)
  * @constant
  */
-export const EXPORT_DIALOG_SUBTITLE = "Export flow as JSON file.";
+export const EXPORT_DIALOG_SUBTITLE = "Flow 등록 신청 및 다운로드.";
 /**
  * The base text for subtitle of Flow Settings (Menubar)
  * @constant

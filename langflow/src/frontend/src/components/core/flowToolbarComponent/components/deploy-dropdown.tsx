@@ -87,7 +87,7 @@ export default function PublishDropdown() {
             className="!px-2.5 font-normal"
             data-testid="publish-button"
           >
-            Share
+            등록
             <IconComponent name="ChevronDown" className="!h-5 !w-5" />
           </Button>
         </DropdownMenuTrigger>
@@ -98,22 +98,22 @@ export default function PublishDropdown() {
           align="end"
           className="w-full min-w-[275px]"
         >
-          <DropdownMenuItem
+{/*           <DropdownMenuItem
             className="deploy-dropdown-item group"
             onClick={() => setOpenApiModal(true)}
             data-testid="api-access-item"
           >
             <IconComponent name="Code2" className={`icon-size mr-2`} />
             <span>API access</span>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem
             className="deploy-dropdown-item group"
             onClick={() => setOpenExportModal(true)}
           >
             <IconComponent name="Download" className={`icon-size mr-2`} />
-            <span>Export</span>
+            <span>신청/다운로드</span>
           </DropdownMenuItem>
-          <CustomLink
+{/*           <CustomLink
             className={cn("flex-1")}
             to={`/mcp/folder/${folderId}`}
             target={customMcpOpen()}
@@ -199,7 +199,7 @@ export default function PublishDropdown() {
                 />
               </div>
             </DropdownMenuItem>
-          )}
+          )} */}
         </DropdownMenuContent>
       </DropdownMenu>
       <ApiModal open={openApiModal} setOpen={setOpenApiModal}>

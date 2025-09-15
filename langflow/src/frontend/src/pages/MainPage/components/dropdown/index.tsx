@@ -69,7 +69,7 @@ const DropdownComponent = ({
           aria-hidden="true"
           className="mr-2 h-4 w-4"
         />
-        Export
+        신청/다운로드
       </DropdownMenuItem>
       <DropdownMenuItem
         onClick={(e) => {

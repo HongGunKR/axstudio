@@ -31,31 +31,6 @@ services:
     networks:
       - axstudio_net
 
-  # Front-end Hot reload용 --안되는중..
-  fe-dev:
-    image: node:20-bookworm
-    container_name: langflow-fe-dev
-    working_dir: /fe
-    command: >
-      bash -lc "
-        npm -C src/frontend ci && npm -C src/frontend run dev -- --host 0.0.0.0 --port 5173 --strictPort"
-    ports:
-      - "5173:5173"                # Vite dev server
-    environment:
-      # 도커 바인드마운트 환경에서 파일 변경 감지 안정화
-      CHOKIDAR_USEPOLLING: "1"
-      WATCHPACK_POLLING: "true"
-      # 백엔드 API 주소 (langflow 컨테이너가 7860이라면)
-      VITE_API_URL: "http://host.docker.internal:7860/api"
-      # (선택) CoE 백엔드 URL 노출
-      VITE_COE_BACKEND_URL: "${COE_BACKEND_URL:-http://host.docker.internal:8000}"
-    volumes:
-      - ../langflow/src/frontend:/fe/src/frontend:rw
-      - ../langflow/src/frontend/node_modules:/fe/src/frontend/node_modules # 캐시용(있으면)
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    restart: unless-stopped
-
   langflow:
     build:
       context: ../langflow

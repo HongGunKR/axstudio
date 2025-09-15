@@ -73,7 +73,8 @@ const HeaderComponent = ({
   };
 
   // Determine which tabs to show based on feature flag
-  const tabTypes = isMCPEnabled ? ["mcp", "flows"] : ["components", "flows"];
+  // const tabTypes = isMCPEnabled ? ["mcp", "flows"] : ["components", "flows"];
+  const tabTypes = ["flows"];
 
   const handleDownload = () => {
     downloadFlows({ ids: selectedFlows });

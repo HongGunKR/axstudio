@@ -580,7 +580,7 @@ const ExportModal = forwardRef(
           </div>
 
           {/* Export 옵션: API 키 포함 여부 */}
-          <div className="mt-3 flex items-center space-x-2">
+{/*           <div className="mt-3 flex items-center space-x-2">
             <Checkbox
               id="export-with-api"
               checked={saveWithApiChecked}
@@ -589,9 +589,9 @@ const ExportModal = forwardRef(
             <label htmlFor="export-with-api" className="export-modal-save-api text-sm">
               {SAVE_WITH_API_CHECKBOX}
             </label>
-          </div>
+          </div> */}
           {/* API 포함 경고/안내 문구 */}
-          <span className="mt-1 text-xs text-destructive">{ALERT_SAVE_WITH_API}</span>
+          {/* <span className="mt-1 text-xs text-destructive">{ALERT_SAVE_WITH_API}</span> */}
 
           {/* Outgoing JSON: 서버로 전송 직전의 payload 미리보기 */}
           {outgoingJson && (
@@ -637,7 +637,7 @@ const ExportModal = forwardRef(
         {/* Footer: 왼쪽 기본 Export(Submit) + 오른쪽 Send(서버 POST) */}
         <BaseModal.Footer
           submit={{
-            label: "Export", // 파일 저장 버튼 라벨
+            label: "Download", // 파일 저장 버튼 라벨
             loading: isBuilding, // 빌드 중이면 로딩 표시
             dataTestId: "modal-export-button",
           }}
@@ -648,7 +648,7 @@ const ExportModal = forwardRef(
             onClick={handleSend}
             title="Send current flow to CoE-Backend (shows request/response below)"
           >
-            Send
+            신청
           </Button>
         </BaseModal.Footer>
       </BaseModal>

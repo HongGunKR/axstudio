@@ -76,8 +76,9 @@ export const AccountMenu = () => {
                     !isLatestVersion && "text-accent-amber-foreground",
                   )}
                 >
-                  {version}{" "}
-                  {isLatestVersion ? "(latest)" : "(update available)"}
+                  1.0
+{/*                   {version}{" "}
+                  {isLatestVersion ? "(latest)" : "(update available)"} */}
                 </div>
               </div>
             </div>
@@ -113,14 +114,14 @@ export const AccountMenu = () => {
                 </HeaderMenuItemButton>
               </div>
             )}
-            <HeaderMenuItemLink
+{/*             <HeaderMenuItemLink
               newPage
               href={ENABLE_DATASTAX_LANGFLOW ? DATASTAX_DOCS_URL : DOCS_URL}
             >
               <span data-testid="menu_docs_button" id="menu_docs_button">
                 Docs
               </span>
-            </HeaderMenuItemLink>
+            </HeaderMenuItemLink> */}
           </div>
 {/* 
           <div>
