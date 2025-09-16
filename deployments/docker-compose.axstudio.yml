@@ -169,22 +169,21 @@ services:
 
   # --- 버킷 자동 생성용 원샷 init 잡 ---
   minio-init:
-    image: minio/mc:latest
+    image: alpine:3.20
     container_name: minio-init
     depends_on:
       - minio
-    entrypoint: >
-      sh -lc '
-        echo "Waiting for MinIO...";
-        until (mc alias set local http://minio:9091 "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}" >/dev/null 2>&1); do
-          sleep 1;
-        done
-        echo "MinIO is ready.";
-        mc mb -p local/${MINIO_MEDIA_BUCKET:-langfuse-media}  || true;
-        mc mb -p local/${MINIO_EVENT_BUCKET:-langfuse-events} || true;
-        mc ls local || true;
-        echo "MinIO buckets ready";
-      '
+    entrypoint: ["/bin/sh", "-lc"]
+    command: >
+      set -eu;
+      apk add --no-cache python3 py3-pip curl jq netcat-openbsd >/dev/null;
+      pip install --no-cache-dir awscli >/dev/null;
+      S3_EP=http://minio:9091;
+      echo "Waiting for MinIO S3 API at $$S3_EP ...";
+      i=0; while ! nc -z minio 9091 2>/dev/null; do i=$$((i+1)); [ $$i -gt 60 ] && echo "MinIO not ready" && exit 1; sleep 1; done;
+      aws --endpoint-url "$$S3_EP" s3api create-bucket --bucket "$$MINIO_MEDIA_BUCKET" || true;
+      aws --endpoint-url "$$S3_EP" s3api create-bucket --bucket "$$MINIO_EVENT_BUCKET" || true;
+      echo "MinIO buckets ready."
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
