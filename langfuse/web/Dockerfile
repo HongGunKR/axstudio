@@ -85,7 +85,10 @@ ENV NEXT_MANUAL_SIG_HANDLE true
 # set the CI flag to true to get CI specific logs
 ENV CI true
 
-RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web...
+# RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web...
+# 기존 라인 교체
+RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web --no-deps --concurrency=1 --summarize
+
 
 # Production image, copy all the files and run next
 FROM --platform=${TARGETPLATFORM:-linux/amd64} base AS runner
