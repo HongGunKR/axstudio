@@ -43,7 +43,7 @@ ENV NODE_ENV=production \
     RAYON_NUM_THREADS=1 \
     NEXT_DISABLE_ESLINT=1 \
     NEXT_TS_IGNORE_BUILD_ERRORS=1 \
-    NODE_OPTIONS="--max-old-space-size=3328" \
+    NODE_OPTIONS="--max-old-space-size=4096" \
     DOCKER_BUILD=1 \
     NEXT_MANUAL_SIG_HANDLE=true \
     CI=true
@@ -100,7 +100,7 @@ RUN if [ -d "/app/packages/shared" ]; then \
 
 # web만 단독 빌드(터보 미사용, 힙 옵션 명시)
 WORKDIR /app/web
-RUN node --max-old-space-size=3328 ./node_modules/.bin/next build
+RUN NODE_OPTIONS="--max-old-space-size=4096" pnpm exec next build
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 4) Runner: Next.js standalone 런타임
