@@ -151,7 +151,7 @@ services:
       MINIO_EVENT_BUCKET: ${MINIO_EVENT_BUCKET:-langfuse-events}
     ports:
       - "9090:9090"   # 콘솔(UI)
-      - "9000:9000"   # S3 API
+      - "9091:9091"   # S3 API
     volumes:
       - minio_data:/data
     networks:
