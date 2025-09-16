@@ -42,7 +42,7 @@ ENV NODE_ENV=production \
     TURBO_TELEMETRY_DISABLED=1 \
     SENTRY_SOURCEMAPS_DISABLE=1 \
     RAYON_NUM_THREADS=1 \
-    NODE_OPTIONS="--max-old-space-size=2560" \
+    NODE_OPTIONS="--max-old-space-size=4096" \
     DOCKER_BUILD=1 \
     NEXT_MANUAL_SIG_HANDLE=true \
     CI=true
