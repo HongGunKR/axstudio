@@ -87,8 +87,7 @@ ENV CI true
 
 # RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web...
 # 기존 라인 교체
-RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web --no-deps --concurrency=1 --summarize
-
+RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web --only --concurrency=1
 
 # Production image, copy all the files and run next
 FROM --platform=${TARGETPLATFORM:-linux/amd64} base AS runner
