@@ -1,38 +1,53 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Stage 0) Node 20 Alpine (보안패치)
+# ─────────────────────────────────────────────────────────────────────────────
 FROM --platform=${TARGETPLATFORM:-linux/amd64} node:20-alpine AS alpine
-
-# It's important to update the index before installing packages to ensure you're getting the latest versions.
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk update && apk upgrade --no-cache libcrypto3 libssl3 libc6-compat busybox ssl_client
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Stage 1) Base: pnpm/turbo 툴 체인
+# ─────────────────────────────────────────────────────────────────────────────
 FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine AS base
 RUN npm install turbo@^2.5.6 --global
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-RUN corepack prepare pnpm@9.5.0 --activate
+RUN corepack enable && corepack prepare pnpm@9.5.0 --activate
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Stage 2) Pruner: web 서브워크스페이스만 추출
+# ─────────────────────────────────────────────────────────────────────────────
 FROM --platform=${TARGETPLATFORM:-linux/amd64} base AS pruner
-
 WORKDIR /app
-
 COPY . .
 RUN turbo prune --scope=web --docker
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Stage 3) Builder: **메모리 절약 빌드**
+#  - turbo 그래프 빌드 대신: 공유패키지(있으면) 선빌드 → web만 빌드
+#  - 힙 상한 2560MB, SWC 스레드 1, 소스맵/텔레메트리 비활성
+# ─────────────────────────────────────────────────────────────────────────────
 FROM --platform=${TARGETPLATFORM:-linux/amd64} base AS builder
 
 WORKDIR /app
 
-# First install the dependencies (as they change less often)
+# (1) 의존성 설치 (prune 결과물 기반)
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=pruner /app/out/json/ .
+RUN pnpm fetch && pnpm install --frozen-lockfile
 
-RUN pnpm install --frozen-lockfile
+# (2) 빌드 환경 변수: 메모리/스레드/소스맵/텔레메트리 최소화
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    TURBO_TELEMETRY_DISABLED=1 \
+    SENTRY_SOURCEMAPS_DISABLE=1 \
+    RAYON_NUM_THREADS=1 \
+    NODE_OPTIONS="--max-old-space-size=2560" \
+    DOCKER_BUILD=1 \
+    NEXT_MANUAL_SIG_HANDLE=true \
+    CI=true
 
-ENV DOCKER_BUILD 1
-ENV NEXT_MANUAL_SIG_HANDLE true
-
-# pass public variables in build step
+# (3) 공개 빌드 변수를 필요 시 주입
 ARG NEXT_PUBLIC_PLAIN_APP_ID
 ARG NEXT_PUBLIC_LANGFUSE_CLOUD_REGION
 ENV NEXT_PUBLIC_LANGFUSE_CLOUD_REGION=$NEXT_PUBLIC_LANGFUSE_CLOUD_REGION
@@ -56,9 +71,11 @@ ARG NEXT_PUBLIC_SENTRY_DSN
 ENV NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
 ARG NEXT_PUBLIC_BASE_PATH
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
+ARG NEXT_PUBLIC_BUILD_ID
+ENV NEXT_PUBLIC_BUILD_ID=$NEXT_PUBLIC_BUILD_ID
+ENV SENTRY_RELEASE=$NEXT_PUBLIC_BUILD_ID
 
-# Sentry already needs to be set on build time to upload sourcemaps
-# This must not be set for OSS releases as we would share our Sentry secret.
+# (4) Sentry 토큰류 (사용 안 하면 비워둠)
 ARG SENTRY_AUTH_TOKEN
 ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
@@ -66,34 +83,28 @@ ENV SENTRY_ORG=$SENTRY_ORG
 ARG SENTRY_PROJECT
 ENV SENTRY_PROJECT=$SENTRY_PROJECT
 
-# Accept build id as NEXT_PUBLIC_BUILD_ID
-ARG NEXT_PUBLIC_BUILD_ID
-ENV NEXT_PUBLIC_BUILD_ID=$NEXT_PUBLIC_BUILD_ID
-ENV SENTRY_RELEASE=$NEXT_PUBLIC_BUILD_ID
-
-# Copy source code of isolated subworkspace
+# (5) pruned 소스 복사 (web 및 의존 서브패키지 포함)
 COPY --from=pruner /app/out/full/ .
 
-# remove middleware.ts if it exists - not needed in self-hosted environments
-RUN rm -f ./web/src/middleware.ts
+# (6) self-host용 미들웨어 제거(존재 시)
+RUN rm -f ./web/src/middleware.ts || true
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_MANUAL_SIG_HANDLE true
-# set the CI flag to true to get CI specific logs
-ENV CI true
+# (7) **공유 패키지 선(先)빌드**: TS → dist (있을 때만)
+#     - packages/shared 가 존재하면 그 안에서 build 스크립트를 실행
+RUN if [ -d "/app/packages/shared" ]; then \
+      echo "Building packages/shared ..."; \
+      cd /app/packages/shared && pnpm run -s build || true; \
+    else \
+      echo "No packages/shared; skipping"; \
+    fi
 
-# RUN NODE_OPTIONS='--max-old-space-size=4096' turbo run build --filter=web...
-# (문제 줄 교체)
-RUN NODE_OPTIONS='--max-old-space-size=4096' \
-    TURBO_TELEMETRY_DISABLED=1 NEXT_TELEMETRY_DISABLED=1 SENTRY_SOURCEMAPS_DISABLE=1 RAYON_NUM_THREADS=1 \
-    turbo run build --filter=web --concurrency=1
+# (8) **web만 단독 빌드** (turbo 미사용 → 메모리 피크 최소화)
+WORKDIR /app/web
+RUN pnpm run -s build
 
-
-
-# Production image, copy all the files and run next
+# ─────────────────────────────────────────────────────────────────────────────
+# Stage 4) Runner: Next.js standalone 런타임
+# ─────────────────────────────────────────────────────────────────────────────
 FROM --platform=${TARGETPLATFORM:-linux/amd64} base AS runner
 
 ARG TARGETPLATFORM
@@ -106,60 +117,51 @@ ENV BUILD_ID=$NEXT_PUBLIC_BUILD_ID
 ARG NEXT_PUBLIC_LANGFUSE_CLOUD_REGION
 ENV NEXT_PUBLIC_LANGFUSE_CLOUD_REGION=$NEXT_PUBLIC_LANGFUSE_CLOUD_REGION
 
-ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-ENV NEXT_TELEMETRY_DISABLED 1
-# Needed to re-enable validation of environment variables during runtime
-ENV DOCKER_BUILD 0
-# Set NEXT_MANUAL_SIG_HANDLE for runtime
-ENV NEXT_MANUAL_SIG_HANDLE true
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    DOCKER_BUILD=0 \
+    NEXT_MANUAL_SIG_HANDLE=true
 
 RUN apk add --no-cache dumb-init tzdata
 
-# Don't run production as root
+# 비루트 사용자
 ARG UID=1001
 ARG GID=1001
-RUN addgroup --system --gid ${GID} nodejs
-RUN adduser --system --uid ${UID} nextjs
+RUN addgroup --system --gid ${GID} nodejs \
+ && adduser --system --uid ${UID} nextjs
 
+# 런타임 도구 (prisma, 선택적 dd-trace)
 RUN npm install -g --no-package-lock --no-save prisma@6.3.0
-
-# Install dd-trace only if NEXT_PUBLIC_LANGFUSE_CLOUD_REGION is configured
 ARG NEXT_PUBLIC_LANGFUSE_CLOUD_REGION
 RUN if [ -n "$NEXT_PUBLIC_LANGFUSE_CLOUD_REGION" ]; then \
         npm install --no-package-lock --no-save dd-trace@5.36.0; \
     fi
 
+# golang-migrate 바이너리
 RUN MIGRATE_TARGET_ARCH=$(echo ${TARGETPLATFORM:-linux/amd64} | sed 's/\//-/g') && \
     wget -q -O- https://github.com/golang-migrate/migrate/releases/download/v4.18.3/migrate.$MIGRATE_TARGET_ARCH.tar.gz | tar xvz && \
     mv migrate /usr/bin/migrate
 
+# next standalone + 정적파일 + public
 COPY --from=builder --chown=nextjs:nodejs /app/web/next.config.mjs .
 COPY --from=builder --chown=nextjs:nodejs /app/web/package.json .
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/web/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/web/.next/static ./web/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/web/public ./web/public
 
+# shared의 prisma/clickhouse 산출물 필요 시 포함
 COPY --from=builder --chown=nextjs:nodejs /app/packages/shared/prisma ./packages/shared/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/packages/shared/clickhouse ./packages/shared/clickhouse
 
+# 엔트리포인트/스크립트
 COPY --chown=nextjs:nodejs ./web/entrypoint.sh ./web/entrypoint.sh
 COPY --chown=nextjs:nodejs ./packages/shared/scripts/cleanup.sql ./packages/shared/scripts/cleanup.sql
 RUN chmod +x ./web/entrypoint.sh
 
 USER nextjs
-
-# Default port to 3000
 ENV PORT 3000
 
-# Docker ENTRYPOINT (dumb-init) is covered by semantic versioning, not the entrypoint.sh itself
-# Reasoning: ENTRYPOINT is overridden by some self-hosted deployments, thus changing this is breaking
 ENTRYPOINT ["dumb-init", "--", "./web/entrypoint.sh"]
-
-# startup command - use dd-trace if NEXT_PUBLIC_LANGFUSE_CLOUD_REGION is configured
 CMD if [ -n "$NEXT_PUBLIC_LANGFUSE_CLOUD_REGION" ]; then \
       node --import dd-trace/initialize.mjs ./web/server.js --keepAliveTimeout 110000; \
     else \
