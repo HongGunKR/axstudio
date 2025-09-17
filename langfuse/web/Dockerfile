@@ -90,6 +90,12 @@ COPY --from=pruner /app/out/full/ .
 # self-host 환경: 미들웨어 제거(있을 때만)
 RUN rm -f ./web/src/middleware.ts || true
 
+# ✅ 프로덕션 빌드에서 테스트/스펙 제거(타입 에러 차단)
+#   - __tests__, __e2e__, __mocks__ 디렉토리 통째 삭제
+#   - *.test.*, *.spec.* 파일 삭제
+RUN find ./web -type d \( -name "__tests__" -o -name "__e2e__" -o -name "__mocks__" \) -prune -exec rm -rf {} + \
+ && find ./web -type f \( -name "*.test.*" -o -name "*.spec.*" \) -delete
+
 # 공유 패키지 선(先)빌드 (있을 경우)
 RUN if [ -d "/app/packages/shared" ]; then \
       echo "Building packages/shared ..."; \
