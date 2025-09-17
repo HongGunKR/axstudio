@@ -31,6 +31,26 @@ services:
     networks:
       - axstudio_net
 
+  # ---------------------------
+  # Langfuse 스택 (Langfuse는 소스 빌드)
+  # ---------------------------
+  lfs-postgres:
+    image: postgres:15-alpine
+    container_name: lfs-postgres
+    environment:
+      POSTGRES_USER: ${LFS_PG_USER}
+      POSTGRES_PASSWORD: ${LFS_PG_PASSWORD}
+      POSTGRES_DB: ${LFS_PG_DB}
+    volumes:
+      - lfs_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - axstudio_net
+
   langflow:
     build:
       context: ../langflow
@@ -63,6 +83,8 @@ services:
     environment:
       LANGFLOW_DATABASE_URL: postgresql+psycopg://${LF_PG_USER}:${LF_PG_PASSWORD}@lf-postgres:5432/${LF_PG_DB}
       LANGFLOW_AUTO_LOGIN: ${LANGFLOW_AUTO_LOGIN:-false}
+      LANGFLOW_SUPERUSER_EMAIL: ${LANGFLOW_SUPERUSER_EMAIL:-langflow}
+      LANGFLOW_SUPERUSER_PASSWORD: ${LANGFLOW_SUPERUSER_PASSWORD:-langflow}
       LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
       LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
       LANGFUSE_HOST: ${LANGFUSE_HOST:-http://langfuse-web:3000}
@@ -80,26 +102,6 @@ services:
       OTEL_EXPORTER_OTLP_TRACES_HEADERS: "x-api-key=${PHOENIX_API_KEY}" #"Authorization=Bearer ${PHOENIX_API_KEY}"
       OTEL_RESOURCE_ATTRIBUTES: service.name=langflow,service.namespace=axstudio
     restart: unless-stopped
-    networks:
-      - axstudio_net
-
-  # ---------------------------
-  # Langfuse 스택 (Langfuse는 소스 빌드)
-  # ---------------------------
-  lfs-postgres:
-    image: postgres:15-alpine
-    container_name: lfs-postgres
-    environment:
-      POSTGRES_USER: ${LFS_PG_USER}
-      POSTGRES_PASSWORD: ${LFS_PG_PASSWORD}
-      POSTGRES_DB: ${LFS_PG_DB}
-    volumes:
-      - lfs_pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
     networks:
       - axstudio_net
 
